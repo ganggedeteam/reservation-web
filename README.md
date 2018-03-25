@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # web
 
 > A Vue.js project
@@ -28,3 +29,7 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+=======
+# reservation-web
+预约平台web前端
+>>>>>>> 09d1a4d33da95155bc86587fc76a175e4116c5c4
