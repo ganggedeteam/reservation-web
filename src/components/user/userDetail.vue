@@ -30,6 +30,11 @@
 					</el-row>
 				</div>
 			</el-card>
+			<el-card>
+				<el-table>
+					<!-- 完成用户就诊人表格，可以查看就诊人详情，就诊人详情用dialog形式展示 -->
+				</el-table>
+			</el-card>
 		</div>
 	</section>
 </template>
@@ -94,8 +99,6 @@
     	padding: 3px 10px;
 		float: right;
     }
-</style>
-<style scoped>
 </style>
 <style>
 	.createDialog .el-form-item__content {
