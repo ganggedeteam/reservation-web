@@ -5,6 +5,7 @@ export default class BizService {
     this.method = {
       // 用户管理
       getUserList: '/user/pagelist',
+      getUserDetail: '/user/detail',
       // 公共编码管理
       getDepartmentTypeList: '/code/departmenttype/pagelist',
       addDepartmentType: '/code/departmenttype/add',
@@ -90,6 +91,16 @@ export default class BizService {
       }
     }, 'application/json')
   }
+  getUserDetail (params, callback) {
+    var url = this.testHost + this.method.getUserDetail
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+
   getDepartmentTypeList (params, callback) {
     var url = this.testHost + this.method.getDepartmentTypeList
     var type = 'post'

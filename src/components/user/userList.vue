@@ -3,11 +3,11 @@
     <div class="top-bar">
       <el-row>
         <el-col :span="5">
-          <el-input placeholder="请输入用户姓名" prefix-icon="el-icon-search" v-model="filter.userName" @keyup.enter.native="initPage()">
+          <el-input placeholder="请输入用户姓名" prefix-icon="el-icon-search" v-model="filter.userName" @keyup.enter.native="initPage">
           </el-input>
         </el-col>
         <el-col :span="2">
-          <el-button style="margin-left:10px;" @click="initPage()" plain>搜 索</el-button>
+          <el-button style="margin-left:10px;" @click="initPage" plain>搜 索</el-button>
         </el-col>
       </el-row>
     </div>
@@ -26,7 +26,7 @@
             {{ formatSex(scope.row.sex) }}
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="provinceName"
         label="省">
       </el-table-column>
@@ -41,6 +41,17 @@
       <el-table-column
         prop="detailAddr"
         label="详细地址">
+      </el-table-column> -->
+      <el-table-column
+        prop="gmtCreate"
+        label="注册时间">
+      </el-table-column>
+      <el-table-column
+        label="操作"
+        width="100px">
+        <template slot-scope="scope">
+          <el-button type="text" @click="showDetail(scope.row)">详情</el-button>
+        </template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -83,10 +94,14 @@ export default {
         } else{
           this.$message({
             type: 'warning',
-            message: data.message
+            message: '获取列表失败'
           })
         }
       })
+    },
+    showDetail (row) {
+      GBFL.Cache.set("userPhone", row.userPhone)
+      this.$router.push("/user/detail")
     },
     handleSizeChange (val) {
       this.filter.pageSize = val

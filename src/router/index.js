@@ -5,6 +5,7 @@ import BookList from '@/components/book/book.vue'
 import UserList from '@/components/user/userList.vue'
 import Dashboard from '@/components/Dashboard.vue'
 
+const UserDetail = resolve => require(['../components/user/UserDetail.vue'], resolve)
 // 公共编码
 const DepartmentType = resolve => require(['../components/globalcode/departmenttype/departmentType.vue'], resolve)
 
@@ -51,7 +52,8 @@ export default new Router({
       menuShow: true,
       iconCls: 'iconfont icon-books',
       children: [
-        {path: '/user/list', component: UserList, name: '用户列表', menuShow: true}
+        {path: '/user/list', component: UserList, name: '用户列表', menuShow: true},
+        {path: '/user/detail', component: UserDetail, name: '用户详情', menuShow: false}
       ]
     }
   ]
