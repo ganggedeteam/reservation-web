@@ -1,11 +1,15 @@
 import $ from 'jquery'
 export default class BizService {
   constructor () {
-    this.testHost = 'http://localhost:8080'
+    this.testHost = 'http://10.236.204.118:8080'
     this.method = {
       // 用户管理
       getUserList: '/user/pagelist',
       getUserDetail: '/user/detail',
+
+      // 病人管理
+      getPatientList: '/patient/pagelist',
+
       // 公共编码管理
       getDepartmentTypeList: '/code/departmenttype/pagelist',
       addDepartmentType: '/code/departmenttype/add',
@@ -93,6 +97,16 @@ export default class BizService {
   }
   getUserDetail (params, callback) {
     var url = this.testHost + this.method.getUserDetail
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+
+  getPatientList (params, callback) {
+    var url = this.testHost + this.method.getPatientList
     var type = 'post'
     return this.bizRequest(url, params, type, function (isOk, data) {
       if (callback) {
