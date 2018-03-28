@@ -2,7 +2,6 @@
  * 全局变量通用文件
  */
 (function (global, undefined) {
-  console.log('hhhhhhhhhhhhhhhhh')
   var GBFL = global.GBFL = {
     version: '4.0.0',
     MSG: {}

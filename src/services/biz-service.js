@@ -3,6 +3,8 @@ export default class BizService {
   constructor () {
     this.testHost = 'http://localhost:8080'
     this.method = {
+      // 登录
+      login: '/login/buser',
       // 用户管理
       getUserList: '/user/pagelist',
       getUserDetail: '/user/detail',
@@ -69,7 +71,6 @@ export default class BizService {
               callback(data.status, data)
             }
           } else {
-            window.location.href = './login.html'
           }
         } else {
           if (callback) {
@@ -81,6 +82,15 @@ export default class BizService {
       }
     }, contentType, async, beforeSend)
     return result
+  }
+  login (params, callback) {
+    var url = this.testHost + this.method.login
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
   }
   getUserList (params, callback) {
     var url = this.testHost + this.method.getUserList

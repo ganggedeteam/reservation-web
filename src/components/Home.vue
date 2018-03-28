@@ -73,7 +73,7 @@
       </div>
       <div class="topbar-account topbar-btn">
         <el-dropdown trigger="click">
-          <span class="el-dropdown-link userinfo-inner"><i class="iconfont icon-user"></i> {{nickname}}  <i
+          <span class="el-dropdown-link userinfo-inner"><i class="iconfont icon-user"></i> {{buser.userName}}  <i
             class="iconfont icon-down"></i></span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
@@ -131,7 +131,13 @@
 
 <script>
 export default {
+  created(){
+    this.initPage()
+  },
   methods: {
+    initPage () {
+      this.buser = GBFL.Cache.get('user-token')
+    },
     handleSelect (index) {
       console.log(this.$router.options.routes)
       this.defaultActiveIndex = index
@@ -139,11 +145,22 @@ export default {
     collapse: function () {
       this.collapsed = !this.collapsed;
     },
+    logout () {
+      this.$confirm('确定要退出吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        GBFL.Cache.remove('user-token')
+        this.$router.push('/login')
+      }).catch(() => {
+      });
+    }
   },
   data () {
     return {
       defaultActiveIndex: '0',
-      nickname: '',
+      buser: {},
       collapsed: false
     }
   }

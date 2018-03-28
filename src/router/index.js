@@ -5,13 +5,14 @@ import BookList from '@/components/book/book.vue'
 import UserList from '@/components/user/userList.vue'
 import Dashboard from '@/components/Dashboard.vue'
 
+const Login = resolve => require(['../components/login.vue'], resolve)
 const UserDetail = resolve => require(['../components/user/UserDetail.vue'], resolve)
 // 公共编码
 const DepartmentType = resolve => require(['../components/globalcode/departmenttype/departmentType.vue'], resolve)
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
       path: '/',
@@ -24,6 +25,12 @@ export default new Router({
       children: [
         {path: '/dashboard', component: Dashboard, name: '首页', menuShow: true}
       ]
+    },
+    {
+      path: '/login',
+      name: '登录界面',
+      component: Login,
+      menuShow: false
     },
     {
       path: '/',
@@ -58,3 +65,19 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.path.startsWith('/login')) {
+    GBFL.Cache.remove('user-token')
+    next()
+  } else {
+    let user = GBFL.Cache.get('user-token')
+    if (!user) {
+      next({path: '/login'})
+    } else {
+      next()
+    }
+  }
+})
+
+export default router
