@@ -30,10 +30,43 @@
 					</el-row>
 				</div>
 			</el-card>
+
 			<el-card>
-				<el-table>
+				
+					<el-table :data="patient" border>
+				      <el-table-column
+				        prop="patientId"
+				        label="就诊人Id ">
+				      </el-table-column>
+				      <el-table-column
+				        prop="idCard"
+				        label="证件号">
+				      </el-table-column>
+				       <el-table-column
+				        label="关系">
+				        <template slot-scope="scope">
+				            {{ formatRelation(scope.row.relation) }}
+				        </template>
+				      </el-table-column>
+				      <el-table-column
+				        prop="gmtCreate"
+				        label="创建时间">
+				      </el-table-column>
+				      <el-table-column
+				        prop="gmtModified"
+				        label="修改时间">
+				      </el-table-column>
+				      <!-- <el-table-column
+				        label="操作"
+				        width="100px">
+				        <template slot-scope="scope">
+				          <el-button type="text" @click="showDetail(scope.row)">详情</el-button>
+				        </template>
+				      </el-table-column> -->
+				    </el-table>
 					<!-- 完成用户就诊人表格，可以查看就诊人详情，就诊人详情用dialog形式展示 -->
-				</el-table>
+				
+				
 			</el-card>
 		</div>
 	</section>
@@ -45,7 +78,8 @@
 	export default {
 		data() {
 			return {
-				user: {}
+				user: {},
+				patient:[]
 			}
 		},
 		created() {
@@ -54,11 +88,25 @@
 		methods: {
 			initPage() {
 				var userPhone = GBFL.Cache.get("userPhone")
-        var params = {'userPhone': userPhone}
-        console.log(params)
-        service.getUserDetail(params,(isOk, data) => {
+        		var params = {'userPhone': userPhone}
+        		console.log(params)
+        		service.getUserDetail(params,(isOk, data) => {
           if (isOk == true){
             this.user = data.data
+
+             params =  {'userId': userPhone}
+             service.getPatientList(params,(isOk, data) => {
+		        if (isOk == true){
+		          this.patient = data.data
+		          this.tableDataLength = data.total
+		        } else{
+		          this.$message({
+		            type: 'warning',
+		            message: '获取列表失败'
+		          })
+		        }
+		      })
+
           } else{
             this.$message({
               type: 'warning',
@@ -66,7 +114,25 @@
             })
           }
         })
-			}
+			},
+    formatSex (val) {
+      if (val === '1') return '女'
+      else if (val === '0') return '男'
+      else return ''
+    },
+    formatRelation (val) {
+      if (val === '0') return '本人'
+      else if (val === '1') return '父母'
+      	else if (val === '2') return '妻子'
+      		else if (val === '3') return '子女'
+      			else if (val === '4') return '亲戚'
+      				else if (val === '5') return '其他'
+      else return ''
+    }
+
+
+
+
 		}
 	}
 </script>
