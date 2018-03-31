@@ -76,11 +76,11 @@
           <span class="el-dropdown-link userinfo-inner"><i class="iconfont icon-user"></i> {{buser.userName}}  <i
             class="iconfont icon-down"></i></span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
+            <el-dropdown-item v-if="buser.roleId == 3">
               <div @click="jumpTo('/user/profile')"><span style="color: #555;font-size: 14px;">个人信息</span></div>
             </el-dropdown-item>
             <el-dropdown-item>
-              <div @click="jumpTo('/user/changepwd')"><span style="color: #555;font-size: 14px;">修改密码</span></div>
+              <div @click="jumpTo('/changepwd')"><span style="color: #555;font-size: 14px;">修改密码</span></div>
             </el-dropdown-item>
             <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
@@ -155,6 +155,9 @@ export default {
         this.$router.push('/login')
       }).catch(() => {
       });
+    },
+    jumpTo (url) {
+      this.$router.push(url)
     }
   },
   data () {

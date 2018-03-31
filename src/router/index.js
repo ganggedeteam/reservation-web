@@ -5,8 +5,14 @@ import BookList from '@/components/book/book.vue'
 import UserList from '@/components/user/userList.vue'
 import Dashboard from '@/components/Dashboard.vue'
 
-const Login = resolve => require(['../components/login.vue'], resolve)
-const UserDetail = resolve => require(['../components/user/UserDetail.vue'], resolve)
+// 登录
+const Login = resolve => require(['../components/Login.vue'], resolve)
+// 用户密码修改
+const UserPwdChange = resolve => require(['../components/buser-pwd-change.vue'], resolve)
+// 医生个人信息
+const DoctorProfile = resolve => require(['../components/buser-profile.vue'], resolve)
+// 用户详情
+const UserDetail = resolve => require(['../components/user/userDetail.vue'], resolve)
 // 公共编码
 const DepartmentType = resolve => require(['../components/globalcode/departmenttype/departmentType.vue'], resolve)
 
@@ -31,6 +37,17 @@ let router = new Router({
       name: '登录界面',
       component: Login,
       menuShow: false
+    },
+    {
+      path: '/',
+      name: 'home',
+      component: Home,
+      leaf: true, // 只有一个节点
+      menuShow: false,
+      children: [
+        {path: '/changepwd', component: UserPwdChange, name: '修改密码', menuShow: false},
+        {path: '/profile', component: DoctorProfile, name: '个人信息', menuShow: false}
+      ]
     },
     {
       path: '/',

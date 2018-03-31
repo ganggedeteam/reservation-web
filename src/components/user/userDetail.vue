@@ -123,10 +123,10 @@
     formatRelation (val) {
       if (val === '0') return '本人'
       else if (val === '1') return '父母'
-      	else if (val === '2') return '妻子'
-      		else if (val === '3') return '子女'
-      			else if (val === '4') return '亲戚'
-      				else if (val === '5') return '其他'
+			else if (val === '2') return '妻子'
+			else if (val === '3') return '子女'
+			else if (val === '4') return '亲戚'
+			else if (val === '5') return '其他'
       else return ''
     }
 

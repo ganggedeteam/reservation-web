@@ -1,14 +1,15 @@
 import $ from 'jquery'
 export default class BizService {
   constructor () {
-    this.testHost = 'http://10.236.204.118:8080'
+    this.testHost = 'http://10.236.226.143:8080'
     this.method = {
       // 登录
       login: '/login/buser',
       // 用户管理
       getUserList: '/user/pagelist',
       getUserDetail: '/user/detail',
-
+      // 后台用户管理
+      changePwd: '/system/buser/changepwd',
       // 病人管理
       getPatientList: '/patient/pagelist',
 
@@ -114,7 +115,15 @@ export default class BizService {
       }
     }, 'application/json')
   }
-
+  changePwd (params, callback) {
+    var url = this.testHost + this.method.changePwd
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    })
+  }
   getPatientList (params, callback) {
     var url = this.testHost + this.method.getPatientList
     var type = 'post'
