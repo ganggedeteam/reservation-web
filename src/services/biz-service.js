@@ -13,6 +13,14 @@ export default class BizService {
       // 病人管理
       getPatientList: '/patient/pagelist',
 
+      // 后台用户管理
+      getBuserList: '/system/buser/pagelist',
+      addBuser: '/system/buser/add',
+      deleteBuser: '/system/buser/delete',
+      updateBuser: '/system/buser/update',
+      detailBuser: '/system/buser/datail',
+      // 角色管理
+      getRoleList: '/system/role/pagelist',
       // 公共编码管理
       getDepartmentTypeList: '/code/departmenttype/pagelist',
       addDepartmentType: '/code/departmenttype/add',
@@ -170,4 +178,53 @@ export default class BizService {
       }
     }, 'application/json')
   }
+
+    getBuserList (params, callback) {
+    var url = this.testHost + this.method.getBuserList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  addBuser (params, callback) {
+    var url = this.testHost + this.method.addBuser
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  deleteBuser (params, callback) {
+    var url = this.testHost + this.method.deleteBuser
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  updateBuser (params, callback) {
+    var url = this.testHost + this.method.updateBuser
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+
+//角色管理
+    getRoleList (params, callback) {
+    var url = this.testHost + this.method.getRoleList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+
 }

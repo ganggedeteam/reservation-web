@@ -38,6 +38,10 @@
 				        prop="patientId"
 				        label="就诊人Id ">
 				      </el-table-column>
+				         <el-table-column
+				        prop="patientName"
+				        label="就诊人姓名 ">
+				      </el-table-column>
 				      <el-table-column
 				        prop="idCard"
 				        label="证件号">
