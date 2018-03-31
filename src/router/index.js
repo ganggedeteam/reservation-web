@@ -4,6 +4,8 @@ import Home from '@/components/Home.vue'
 import BookList from '@/components/book/book.vue'
 import UserList from '@/components/user/userList.vue'
 import Dashboard from '@/components/Dashboard.vue'
+import BuserList from '@/components/system/buserlist.vue'
+import Rolelist from '@/components/system/rolelist.vue'
 
 const UserDetail = resolve => require(['../components/user/UserDetail.vue'], resolve)
 // 公共编码
@@ -54,6 +56,17 @@ export default new Router({
       children: [
         {path: '/user/list', component: UserList, name: '用户列表', menuShow: true},
         {path: '/user/detail', component: UserDetail, name: '用户详情', menuShow: false}
+      ]
+    },
+    {
+      path: '/',
+      component: Home,
+      name: '系统管理',
+      menuShow: true,
+      iconCls: 'iconfont icon-books',
+      children: [
+        {path: '/system/buserlist', component: BuserList, name: '后台用户管理', menuShow: true},
+        {path: '/system/rolelist', component: Rolelist, name: '角色管理', menuShow: true}
       ]
     }
   ]

@@ -111,6 +111,12 @@
                           :class="$route.path==item.children[0].path?'is-active':''" :key="index">
               <i :class="item.iconCls"></i><span slot="title">{{item.children[0].name}}</span>
             </el-menu-item>
+
+            <el-menu-item v-else-if="item.leaf&&item.children&&item.children.length" :index="item.children[0].path"
+                          :class="$route.path==item.children[0].path?'is-active':''" :key="index">
+              <i :class="item.iconCls"></i><span slot="title">{{item.children[0].name}}</span>
+            </el-menu-item>
+            
           </template>
         </el-menu>
       </aside>
