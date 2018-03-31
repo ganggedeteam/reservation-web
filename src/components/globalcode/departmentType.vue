@@ -61,7 +61,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit('addDialog.form')">新增</el-button>
-          <el-button>取消</el-button>
+          <el-button @click="closeAddDialog">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -82,7 +82,7 @@
   </div>
 </template>
 <script>
-import BizService from '../../../services/biz-service.js'
+import BizService from '../../services/biz-service.js'
 var service = new BizService()
 export default {
   data () {
@@ -167,7 +167,6 @@ export default {
       })
     },
     deleteDepartmentType (row) {
-      console.log(row)
       this.$confirm('删除该分类, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

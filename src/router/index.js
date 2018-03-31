@@ -1,25 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home.vue'
-import BookList from '@/components/book/book.vue'
-import UserList from '@/components/user/userList.vue'
 import Dashboard from '@/components/Dashboard.vue'
 
+// 用户信息
+const UserList = resolve => require(['../components/user/userList.vue'], resolve)
 // 登录
 const Login = resolve => require(['../components/Login.vue'], resolve)
 // 后台用户信息
-const BuserList = resolve => require(['../components/system/buser/buserlist.vue'], resolve)
+const BuserList = resolve => require(['../components/system/buser/buserList.vue'], resolve)
 // 用户密码修改
 const UserPwdChange = resolve => require(['../components/system/buser/buser-pwd-change.vue'], resolve)
 // 医生个人信息
 const DoctorProfile = resolve => require(['../components/system/buser/buser-profile.vue'], resolve)
 // 角色管理
-const RoleList = resolve => require(['../components/system/role/rolelist.vue'], resolve)
+const RoleList = resolve => require(['../components/system/role/roleList.vue'], resolve)
 // 用户详情
 const UserDetail = resolve => require(['../components/user/userDetail.vue'], resolve)
 // 公共编码
-const DepartmentType = resolve => require(['../components/globalcode/departmenttype/departmentType.vue'], resolve)
-
+const DepartmentType = resolve => require(['../components/globalcode/departmentType.vue'], resolve)
+const AddressList = resolve => require(['../components/globalcode/addressList.vue'], resolve)
+// 医院管理
+const HospitalList = resolve => require(['../components/hospital/hospitalList.vue'], resolve)
 Vue.use(Router)
 
 let router = new Router({
@@ -49,17 +51,8 @@ let router = new Router({
       menuShow: true,
       iconCls: 'iconfont icon-books',
       children: [
-        {path: '/code/departmenttype', component: DepartmentType, name: '科室分类编码', menuShow: true}
-      ]
-    },
-    {
-      path: '/',
-      component: Home,
-      name: '图书管理',
-      menuShow: true,
-      iconCls: 'iconfont icon-books',
-      children: [
-        {path: '/book/list', component: BookList, name: '图书列表', menuShow: true}
+        {path: '/code/departmenttype', component: DepartmentType, name: '科室分类编码', menuShow: true},
+        {path: '/code/address/list', component: AddressList, name: '地址编码', menuShow: true}
       ]
     },
     {
@@ -84,6 +77,16 @@ let router = new Router({
         {path: '/system/buser/changepwd', component: UserPwdChange, name: '修改密码', menuShow: false},
         {path: '/system/buser/profile', component: DoctorProfile, name: '个人信息', menuShow: false},
         {path: '/system/role/list', component: RoleList, name: '角色管理', menuShow: true}
+      ]
+    },
+    {
+      path: '/',
+      component: Home,
+      name: '基本信息维护',
+      menuShow: true,
+      iconCls: 'iconfont icon-books',
+      children: [
+        {path: '/hospital/list', component: HospitalList, name: '医院列表', menuShow: true}
       ]
     }
   ]

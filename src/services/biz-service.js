@@ -25,7 +25,13 @@ export default class BizService {
       getDepartmentTypeList: '/code/departmenttype/pagelist',
       addDepartmentType: '/code/departmenttype/add',
       deleteDepartmentType: '/code/departmenttype/delete',
-      updateDepartmentType: '/code/departmenttype/update'
+      updateDepartmentType: '/code/departmenttype/update',
+
+      getAddressList: '/code/address/pagelist',
+      addAddress: '/code/address/add',
+      deleteAddress: '/code/address/delete',
+      deleteAddressList: '/code/address/deleteList',
+      updateAddress: '/code/address/update'
     }
   }
   ajaxRequest (url, sendData, type, callback, contentType, async, beforeSend) {
@@ -178,8 +184,52 @@ export default class BizService {
       }
     }, 'application/json')
   }
-
-    getBuserList (params, callback) {
+  getAddressList (params, callback) {
+    var url = this.testHost + this.method.getAddressList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  addAddress (params, callback) {
+    var url = this.testHost + this.method.addAddress
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  deleteAddress (params, callback) {
+    var url = this.testHost + this.method.deleteAddress
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  deleteAddressList (params, callback) {
+    var url = this.testHost + this.method.deleteAddressList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  updateAddress (params, callback) {
+    var url = this.testHost + this.method.updateAddress
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  getBuserList (params, callback) {
     var url = this.testHost + this.method.getBuserList
     var type = 'post'
     return this.bizRequest(url, params, type, function (isOk, data) {
@@ -216,8 +266,8 @@ export default class BizService {
     }, 'application/json')
   }
 
-//角色管理
-    getRoleList (params, callback) {
+  // 角色管理
+  getRoleList (params, callback) {
     var url = this.testHost + this.method.getRoleList
     var type = 'post'
     return this.bizRequest(url, params, type, function (isOk, data) {
