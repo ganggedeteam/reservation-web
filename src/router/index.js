@@ -4,15 +4,17 @@ import Home from '@/components/Home.vue'
 import BookList from '@/components/book/book.vue'
 import UserList from '@/components/user/userList.vue'
 import Dashboard from '@/components/Dashboard.vue'
-import BuserList from '@/components/system/buserlist.vue'
-import Rolelist from '@/components/system/rolelist.vue'
 
 // 登录
 const Login = resolve => require(['../components/Login.vue'], resolve)
+// 后台用户信息
+const BuserList = resolve => require(['../components/system/buser/buserlist.vue'], resolve)
 // 用户密码修改
-const UserPwdChange = resolve => require(['../components/buser-pwd-change.vue'], resolve)
+const UserPwdChange = resolve => require(['../components/system/buser/buser-pwd-change.vue'], resolve)
 // 医生个人信息
-const DoctorProfile = resolve => require(['../components/buser-profile.vue'], resolve)
+const DoctorProfile = resolve => require(['../components/system/buser/buser-profile.vue'], resolve)
+// 角色管理
+const RoleList = resolve => require(['../components/system/role/rolelist.vue'], resolve)
 // 用户详情
 const UserDetail = resolve => require(['../components/user/userDetail.vue'], resolve)
 // 公共编码
@@ -39,17 +41,6 @@ let router = new Router({
       name: '登录界面',
       component: Login,
       menuShow: false
-    },
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-      leaf: true, // 只有一个节点
-      menuShow: false,
-      children: [
-        {path: '/changepwd', component: UserPwdChange, name: '修改密码', menuShow: false},
-        {path: '/profile', component: DoctorProfile, name: '个人信息', menuShow: false}
-      ]
     },
     {
       path: '/',
@@ -89,8 +80,10 @@ let router = new Router({
       menuShow: true,
       iconCls: 'iconfont icon-books',
       children: [
-        {path: '/system/buserlist', component: BuserList, name: '后台用户管理', menuShow: true},
-        {path: '/system/rolelist', component: Rolelist, name: '角色管理', menuShow: true}
+        {path: '/system/buser/list', component: BuserList, name: '后台用户管理', menuShow: true},
+        {path: '/system/buser/changepwd', component: UserPwdChange, name: '修改密码', menuShow: false},
+        {path: '/system/buser/profile', component: DoctorProfile, name: '个人信息', menuShow: false},
+        {path: '/system/role/list', component: RoleList, name: '角色管理', menuShow: true}
       ]
     }
   ]

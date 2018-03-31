@@ -2,29 +2,23 @@
   <div>
     <el-card style="margin-top:12px" class="box-card">
       <div slot="header">
-        <span>个人信息</span>
+        <span>修改密码</span>
       </div>
       <div class="user-form">
         <el-form ref="form" :model="form" label-width="120px" :rules="rules">
           <el-row>
             <el-col :span="7" :offset="6">
-              <el-form-item label="所属医院">
+              <el-form-item label="用户名称">
                 {{user.userName}}
               </el-form-item>
-              <el-form-item label="所属科室">
-                {{user.userName}}
+              <el-form-item label="当前密码" prop="password">
+                <el-input  v-model="form.password" auto-complete="off" type="password"></el-input>
               </el-form-item>
-              <el-form-item label="姓名">
-                <el-input></el-input>
+              <el-form-item label="新密码" prop="newPassword">
+                <el-input  v-model="form.newPassword" auto-complete="off" type="password"></el-input>
               </el-form-item>
-              <el-form-item label="职称">
-                <el-select></el-select>
-              </el-form-item>
-              <el-form-item label="擅长">
-                <el-input></el-input>
-              </el-form-item>
-              <el-form-item label="医生简介">
-                <el-input type="textarea"></el-input>
+              <el-form-item label="确认新密码" prop="confirmNewPassword">
+                <el-input  v-model="form.confirmNewPassword" auto-complete="off" type="password"></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" native-type="submit" @click.prevent="onSubmit">保存</el-button>
@@ -38,7 +32,7 @@
   </div>
 </template>
 <script>
-import BizService from '../services/biz-service.js'
+import BizService from '../../../services/biz-service.js'
 var bizService = new BizService();
 export default {
   data() {

@@ -1,7 +1,7 @@
 import $ from 'jquery'
 export default class BizService {
   constructor () {
-    this.testHost = 'http://10.236.226.143:8080'
+    this.testHost = 'http://localhost:8080'
     this.method = {
       // 登录
       login: '/login/buser',

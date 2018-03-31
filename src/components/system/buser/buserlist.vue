@@ -113,7 +113,7 @@
   </div>
 </template>
 <script>
-import BizService from '../../services/biz-service.js'
+import BizService from '../../../services/biz-service.js'
 var service = new BizService()
 export default {
   data () {
