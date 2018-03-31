@@ -10,10 +10,10 @@
           <el-button style="margin-left:10px;" @click="initPage" plain>搜 索</el-button>
         </el-col>
         <el-col :span="2" :offset="13">
-          <el-button style="float: right" type="primary" @click="openAddDialog">新 增</el-button>
+          <el-button style="float: right" icon="el-icon-edit" type="primary" @click="openAddDialog">新 增</el-button>
         </el-col>
         <el-col :span="2">
-          <el-button style="margin-left: 20px" type="primary" @click="deleteAddressList">删 除</el-button>
+          <el-button style="margin-left: 20px" icon="el-icon-delete" type="danger" @click="deleteAddressList">删 除</el-button>
         </el-col>
       </el-row>
     </div>
