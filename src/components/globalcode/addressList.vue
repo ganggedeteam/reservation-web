@@ -9,7 +9,7 @@
         <el-col :span="2">
           <el-button style="margin-left:10px;" @click="initPage" plain>搜 索</el-button>
         </el-col>
-        <el-col :span="2" :offset="13">
+        <el-col :span="2" :offset="12">
           <el-button style="float: right" icon="el-icon-edit" type="primary" @click="openAddDialog">新 增</el-button>
         </el-col>
         <el-col :span="2">
@@ -18,7 +18,7 @@
       </el-row>
     </div>
     <el-table :data="tableData" border tooltip-effect="dark" style="width: 100%"
-    @selection-change="handleSelectionChange">
+      @selection-change="handleSelectionChange">
       <el-table-column
         type="selection"
         width="55">
@@ -40,10 +40,10 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="100px">
+        width="150px">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="openUpdateDialog(scope.row)">编辑</el-button> |
-          <el-button type="text" size="small" style="margin-left: 0" @click="deleteAddress(scope.row)">删除</el-button>
+          <el-button type="success" size="mini" @click="openUpdateDialog(scope.row)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="deleteAddress(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -181,7 +181,7 @@ export default {
   methods: {
     initPage () {
       var params = this.filter
-      service.getAddressList(params,(isOk, data) => {
+      service.getAddressPageList(params,(isOk, data) => {
         if (isOk == true){
           this.tableData = data.data
           this.tableDataLength = data.total
@@ -269,7 +269,6 @@ export default {
         for(var j = 0,len=this.multipleSelection.length; j < len; j++) {
           params.push({id: this.multipleSelection[j].id})
         }
-        console.log(params)
         service.deleteAddressList(params,(isOk, data) => {
           if (isOk == true){
             this.$message({

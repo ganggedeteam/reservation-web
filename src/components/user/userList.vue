@@ -50,7 +50,7 @@
         label="操作"
         width="100px">
         <template slot-scope="scope">
-          <el-button type="text" @click="showDetail(scope.row)">详情</el-button>
+          <el-button type="info" size="mini" @click="showDetail(scope.row)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>

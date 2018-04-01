@@ -9,15 +9,20 @@
         <el-col :span="2">
           <el-button style="margin-left:10px;" @click="initPage" plain>搜 索</el-button>
         </el-col>
-        <el-col :span="2" :offset="13">
-          <el-button style="float: right" type="primary" @click="openAddDialog">新 增</el-button>
+        <el-col :span="2" :offset="12">
+          <el-button style="float: right" icon="el-icon-edit" type="primary" @click="openAddDialog">新 增</el-button>
         </el-col>
         <el-col :span="2">
-          <el-button style="margin-left: 20px" type="primary" @click="deleteDepartmentType">删 除</el-button>
+          <el-button style="margin-left: 20px" icon="el-icon-delete" type="danger" @click="deleteDepartmentTypeList">删 除</el-button>
         </el-col>
       </el-row>
     </div>
-    <el-table :data="tableData" border>
+    <el-table :data="tableData" border tooltip-effect="dark" style="width: 100%"
+      @selection-change="handleSelectionChange">
+      <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column>
       <el-table-column
         prop="departmentTypeId"
         label="分类编码"
@@ -34,10 +39,10 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="100px">
+        width="150px">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="openUpdateDialog(scope.row)">编辑</el-button> |
-          <el-button type="text" size="small" style="margin-left: 0" @click="deleteDepartmentType(scope.row)">删除</el-button>
+          <el-button type="success" size="mini" @click="openUpdateDialog(scope.row)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="deleteDepartmentType(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -60,8 +65,8 @@
           <el-input type="textarea" v-model="addDialog.form.remark"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit('addDialog.form')">新增</el-button>
-          <el-button @click="closeAddDialog">取消</el-button>
+          <el-button class="cancel-button" @click="closeAddDialog">取消</el-button>
+          <el-button class="save-button" type="primary" @click="onSubmit('addDialog.form')">新增</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -74,8 +79,8 @@
           <el-input type="textarea" v-model="updateDialog.form.remark"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit('updateDialog.form')">保存</el-button>
-          <el-button @click="closeUpdateDialog">取消</el-button>
+          <el-button class="cancel-button" @click="closeUpdateDialog">取消</el-button>
+          <el-button class="save-button" type="primary" @click="onSubmit('updateDialog.form')">保存</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -89,6 +94,7 @@ export default {
     return {
       tableData: [],
       tableDataLength: null,
+      multipleSelection: [],
       filter: {
         departmentTypeName: null,
         pageSize: 10,
@@ -190,6 +196,37 @@ export default {
       }).catch(() => {
       });
     },
+    deleteDepartmentTypeList () {
+      if(this.multipleSelection.length == 0){
+        this.$message.error('至少选择一条数据!')
+        return
+      }
+      this.$confirm('删除选中的分类, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var params = []
+        for(var j = 0,len=this.multipleSelection.length; j < len; j++) {
+          params.push({departmentTypeId: this.multipleSelection[j].departmentTypeId})
+        }
+        service.deleteDepartmentTypeList(params,(isOk, data) => {
+          if (isOk == true){
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            })
+            this.initPage()
+          } else{
+            this.$message({
+              type: 'warning',
+              message: '删除失败'
+            })
+          }
+        })
+      }).catch(() => {
+      });
+    },
     onSubmit (form) {
       this.$refs[form].validate(valid => {
         if(valid){
@@ -232,6 +269,9 @@ export default {
     handleCurrentChange (val) {
       this.filter.pageNo = val
       this.initPage()
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
     }
   }
 }
@@ -253,5 +293,14 @@ export default {
   }
   .el-form-item {
     width: 90%;
+  }
+  .el-form-item .save-button{
+    margin-top: 10px;
+    float: right;
+    margin-right: 20px;
+  }
+  .el-form-item .cancel-button{
+    margin-top: 10px;
+    float: right;
   }
 </style>

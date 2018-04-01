@@ -9,11 +9,8 @@
         <el-col :span="2">
           <el-button style="margin-left:10px;" @click="initPage" plain>搜 索</el-button>
         </el-col>
-        <el-col :span="2" :offset="13">
-          <el-button style="float: right" type="primary" @click="openAddDialog">新 增</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button style="margin-left: 20px" type="primary" @click="deleteBuser">删 除</el-button>
+        <el-col :span="3" :offset="14">
+          <el-button style="float: right" icon="el-icon-edit" type="primary" @click="openAddDialog">新 增</el-button>
         </el-col>
       </el-row>
     </div>
@@ -41,10 +38,10 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="100px">
+        width="150px">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="openUpdateDialog(scope.row)">编辑</el-button> |
-          <el-button type="text" size="small" style="margin-left: 0" @click="deleteBuser(scope.row)">删除</el-button>
+          <el-button type="success" size="mini" @click="openUpdateDialog(scope.row)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="deleteBuser(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -234,7 +231,7 @@ export default {
           })
           this.closeAddDialog()
           this.initPage()
-        } else{
+        } else {
           this.$message({
             type: 'warning',
             message: '新增失败'
@@ -271,13 +268,13 @@ export default {
       }).then(() => {
         if (row == null || row.buserId == null) return
         service.deleteBuser({buserId: row.Id},(isOk, data) => {
-          if (isOk == true){
+          if (isOk === true) {
             this.$message({
               type: 'success',
               message: '删除成功'
             })
             this.initPage()
-          } else{
+          } else {
             this.$message({
               type: 'warning',
               message: '删除失败'
@@ -285,26 +282,26 @@ export default {
           }
         })
       }).catch(() => {
-      });
+      })
     },
     onSubmit (form) {
       this.$refs[form].validate(valid => {
-        if(valid){
+        if (valid) {
           if (form === 'addDialog.form') {
             this.addBuser()
-          }else if (form === 'updateDialog.form') {
+          } else if (form === 'updateDialog.form') {
             this.updateBuser()
           }
         }
-      });
+      })
     },
     openAddDialog () {
       this.addDialog.visible = true
     },
     closeAddDialog () {
-      this.addDialog.visible = false;
+      this.addDialog.visible = false
       // 重置表单
-      this.$refs['addDialog.form'].resetFields();
+      this.$refs['addDialog.form'].resetFields()
     },
     openUpdateDialog (row) {
       this.updateDialog.visible = true
@@ -316,11 +313,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.updateDialog.visible = false;
+        this.updateDialog.visible = false
         // 重置表单
-        this.$refs['updateDialog.form'].resetFields();
+        this.$refs['updateDialog.form'].resetFields()
       }).catch(() => {
-      });
+      })
     },
     handleSizeChange (val) {
       this.filter.pageSize = val

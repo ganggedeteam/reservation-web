@@ -26,12 +26,21 @@ export default class BizService {
       addDepartmentType: '/code/departmenttype/add',
       deleteDepartmentType: '/code/departmenttype/delete',
       updateDepartmentType: '/code/departmenttype/update',
+      deleteDepartmentTypeList: '/code/departmenttype/deleteList',
 
-      getAddressList: '/code/address/pagelist',
+      getAddressPageList: '/code/address/pagelist',
+      getAddressList: '/code/address/list',
       addAddress: '/code/address/add',
       deleteAddress: '/code/address/delete',
       deleteAddressList: '/code/address/deleteList',
-      updateAddress: '/code/address/update'
+      updateAddress: '/code/address/update',
+      getAddressDetail: '/code/adddress/detail',
+
+      // 医院管理
+      getHospitalList: '/hospital/hospital/pagelist',
+      getHospitalDetail: '/hospital/hospital/detail',
+      addHospital: '/hospital/hospital/add',
+      updateHospital: '/hospital/hospital/update'
     }
   }
   ajaxRequest (url, sendData, type, callback, contentType, async, beforeSend) {
@@ -184,6 +193,24 @@ export default class BizService {
       }
     }, 'application/json')
   }
+  deleteDepartmentTypeList (params, callback) {
+    var url = this.testHost + this.method.deleteDepartmentTypeList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  getAddressPageList (params, callback) {
+    var url = this.testHost + this.method.getAddressPageList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
   getAddressList (params, callback) {
     var url = this.testHost + this.method.getAddressList
     var type = 'post'
@@ -222,6 +249,15 @@ export default class BizService {
   }
   updateAddress (params, callback) {
     var url = this.testHost + this.method.updateAddress
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  getAddressDetail (params, callback) {
+    var url = this.testHost + this.method.getAddressDetail
     var type = 'post'
     return this.bizRequest(url, params, type, function (isOk, data) {
       if (callback) {
@@ -277,4 +313,41 @@ export default class BizService {
     }, 'application/json')
   }
 
+  // 医院管理
+  getHospitalList (params, callback) {
+    var url = this.testHost + this.method.getHospitalList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  getHospitalDetail (params, callback) {
+    var url = this.testHost + this.method.getHospitalDetail
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  addHospital (params, callback) {
+    var url = this.testHost + this.method.addHospital
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  updateHospital (params, callback) {
+    var url = this.testHost + this.method.updateHospital
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
 }

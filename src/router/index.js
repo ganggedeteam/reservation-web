@@ -21,7 +21,9 @@ const UserDetail = resolve => require(['../components/user/userDetail.vue'], res
 const DepartmentType = resolve => require(['../components/globalcode/departmentType.vue'], resolve)
 const AddressList = resolve => require(['../components/globalcode/addressList.vue'], resolve)
 // 医院管理
-const HospitalList = resolve => require(['../components/hospital/hospitalList.vue'], resolve)
+const HospitalList = resolve => require(['../components/hospital/hospital/hospitalList.vue'], resolve)
+const HospitalDetail = resolve => require(['../components/hospital/hospital/hospitalDetail.vue'], resolve)
+const EditHospital = resolve => require(['../components/hospital/hospital/editHospital.vue'], resolve)
 Vue.use(Router)
 
 let router = new Router({
@@ -82,11 +84,13 @@ let router = new Router({
     {
       path: '/',
       component: Home,
-      name: '基本信息维护',
+      name: '院方信息维护',
       menuShow: true,
       iconCls: 'iconfont icon-books',
       children: [
-        {path: '/hospital/list', component: HospitalList, name: '医院列表', menuShow: true}
+        {path: '/hospital/hospital/list', component: HospitalList, name: '医院列表', menuShow: true},
+        {path: '/hospital/hospital/detail', component: HospitalDetail, name: '医院详情', menuShow: false},
+        {path: '/hospital/hospital/edit', component: EditHospital, name: '医院信息管理', menuShow: true}
       ]
     }
   ]

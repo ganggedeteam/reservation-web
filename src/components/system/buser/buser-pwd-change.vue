@@ -33,24 +33,24 @@
 </template>
 <script>
 import BizService from '../../../services/biz-service.js'
-var bizService = new BizService();
+var bizService = new BizService()
 export default {
-  data() {
+  data () {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入新密码'));
+        callback(new Error('请再次输入新密码'))
       } else if (value !== this.form.newPassword) {
-        callback(new Error('两次输入密码不一致!'));
+        callback(new Error('两次输入密码不一致!'))
       } else {
-        callback();
+        callback()
       }
     }
     return {
       form: {
-          password: '',
-          newPassword: '',
-          confirmNewPassword: '',
-          userId: null
+        password: '',
+        newPassword: '',
+        confirmNewPassword: '',
+        userId: null
       },
       user: null,
       rules: {
@@ -87,21 +87,21 @@ export default {
               this.$message({
                 message: '密码修改成功',
                 type: 'success'
-              });
+              })
               GBFL.Cache.set('user-token', data.data)
             } else {
               this.$message({
                 message: data.message,
                 type: 'warning'
-              });
+              })
             }
-            this.$refs['form'].resetFields();
+            this.$refs['form'].resetFields()
           })
         }
       })
     },
     goback () {
-      this.$router.push("/")
+      this.$router.push('/')
     }
   }
 }

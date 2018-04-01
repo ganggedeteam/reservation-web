@@ -18,7 +18,7 @@
 import BizService from '../services/biz-service.js'
 var service = new BizService()
 export default {
-  data() {
+  data () {
     return {
       loading: false,
       form: {
@@ -28,33 +28,33 @@ export default {
       rules: {
         loginId: [
           {required: true, message: '请输入账号', trigger: 'blur'},
-          //{ validator: validaePass }
+          // { validator: validaePass }
         ],
         loginPwd: [
           {required: true, message: '请输入密码', trigger: 'blur'},
-          //{ validator: validaePass2 }
+          // { validator: validaePass2 }
         ]
       },
       checked: true
-    };
+    }
   },
   methods: {
     onSubmit () {
       this.$refs['form'].validate(valid => {
-        if(valid){
-          this.login();
+        if (valid) {
+          this.login()
         }
-      });
+      })
     },
     login () {
       let params = this.form
-      service.login(params,(isOk, data) => {
-        if (isOk == true){
+      service.login(params, (isOk, data) => {
+        if (isOk === true) {
           if (data.status === true) {
-            GBFL.Cache.set("user-token", data.data)
-            this.$router.push("/")
+            GBFL.Cache.set('user-token', data.data)
+            this.$router.push('/')
           }
-        } else{
+        } else {
           this.$message.error(data.message)
         }
       })
