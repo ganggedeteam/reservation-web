@@ -8,10 +8,10 @@
         <el-form ref="form" :model="form" label-width="120px" :rules="rules">
           <el-row>
             <el-col :span="10" :offset="6">
-              <el-form-item label="医院名称">
+              <el-form-item label="医院名称" prop="hospitalName">
                 <el-input v-model="form.hospitalName"></el-input>
               </el-form-item>
-              <el-form-item label="医院级别">
+              <el-form-item label="医院级别" prop="hospitalGrade">
                 <el-select v-model="form.hospitalGrade" placeholder="请选择级别" style="width: 100%">
                   <el-option
                     v-for="item in gradeOptions"
@@ -21,7 +21,7 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="医院地址">
+              <el-form-item label="医院地址" prop="hospitalAddress">
                 <el-cascader
                   :options="addressOptions"
                   @active-item-change="handleItemChange"
@@ -54,15 +54,6 @@ import BizService from '../../../services/biz-service.js'
 var service = new BizService()
 export default {
   data () {
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入新密码'))
-      } else if (value !== this.form.newPassword) {
-        callback(new Error('两次输入密码不一致!'))
-      } else {
-        callback()
-      }
-    }
     return {
       type: '',
       form: {
@@ -73,14 +64,14 @@ export default {
       },
       hospital: null,
       rules: {
-        password: [
-          { required: true, message: '请输入您的密码', trigger: 'blur' }
+        hospitalName: [
+          { required: true, message: '请输入医院名称', trigger: 'blur' }
         ],
-        newPassword: [
-          { required: true, message: '请输入新密码', trigger: 'blur' }
+        hospitalGrade: [
+          { required: true, message: '请选择医院等级', trigger: 'blur' }
         ],
-        confirmNewPassword: [
-          { required: true, validator: validatePass, trigger: 'blur' }
+        hospitalAddress: [
+          { required: true, message: '请选择医院地址', trigger: 'blur' }
         ]
       },
       gradeOptions: [{
@@ -240,6 +231,7 @@ export default {
       params.province = this.address[0]
       params.city = this.address[1]
       params.county = this.address[2]
+      params.isValid = '0'
       service.updateHospital(params, (isOk, data) => {
         if(isOk){
           this.$message({

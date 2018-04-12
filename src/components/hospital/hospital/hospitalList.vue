@@ -19,7 +19,7 @@
       <el-table-column
         prop="hospitalName"
         label="医院名称"
-        width="200px">
+        width="300px">
       </el-table-column>
       <el-table-column
         prop="managerName"
