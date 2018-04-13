@@ -84,8 +84,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        </el-form-item>
-        
+        </el-form-item>       
 <!--         <el-form-item label="说明" prop="remark">
           <el-input type="textarea" v-model="addDialog.form.remark"></el-input>
         </el-form-item> -->
@@ -106,9 +105,6 @@
         <el-form-item label="管理员名称" prop="userName">
           <el-input v-model="updateDialog.form.userName"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="说明" prop="remark">
-          <el-input type="textarea" v-model="updateDialog.form.remark"></el-input>
-        </el-form-item> -->
         <el-form-item label="角色名称" prop="roleId">
           <el-select v-model="updateDialog.form.roleId" label="管理员角色：" placeholder="请选择角色">
           <el-option
