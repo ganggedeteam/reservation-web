@@ -54,3 +54,7 @@ git checkout teamwork master
 git add .
 git commit -a
 rm -f .git/index.lock 
+Git clone https://github.com/ganggedeteam/reservation-web.git
+Git status
+Git add 。
+git add .

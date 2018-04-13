@@ -3,18 +3,26 @@
     <div class="top-bar">
       <el-row>
         <el-col :span="5">
-          <el-input placeholder="请输入管理员名称" prefix-icon="el-icon-search" v-model="filter.buserName" @keyup.enter.native="initPage">
+          <el-input placeholder="请输入管理员名称" prefix-icon="el-icon-search" v-model="filter.userName" @keyup.enter.native="initPage">
           </el-input>
         </el-col>
         <el-col :span="2">
           <el-button style="margin-left:10px;" @click="initPage" plain>搜 索</el-button>
         </el-col>
-        <el-col :span="3" :offset="14">
-          <el-button style="float: right" icon="el-icon-edit" type="primary" @click="openAddDialog">新 增</el-button>
+        <el-col :span="2" :offset="13">
+          <el-button style="float: right" type="primary" @click="openAddDialog">新 增</el-button>
+        </el-col>
+        <el-col :span="2">
+          <el-button style="margin-left: 20px" type="danger" @click="deleteBuserList">删 除</el-button>
         </el-col>
       </el-row>
     </div>
-    <el-table :data="tableData" border>
+     <el-table :data="tableData" border tooltip-effect="dark" style="width: 100%"
+      @selection-change="handleSelectionChange">
+      <el-table-column
+        type="selection"
+        width="55">
+      </el-table-column>
       <el-table-column
         prop="loginId"
         label="管理员ID"
@@ -101,6 +109,16 @@
         <!-- <el-form-item label="说明" prop="remark">
           <el-input type="textarea" v-model="updateDialog.form.remark"></el-input>
         </el-form-item> -->
+        <el-form-item label="角色名称" prop="roleId">
+          <el-select v-model="updateDialog.form.roleId" label="管理员角色：" placeholder="请选择角色">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit('updateDialog.form')">保存</el-button>
           <el-button @click="closeUpdateDialog">取消</el-button>
@@ -119,6 +137,11 @@ export default {
       tableDataLength: null,
       filter: {
         userName: null,
+        pageSize: 10,
+        pageNo: 1
+      },
+      filterrole: {
+        roleId: null,
         pageSize: 10,
         pageNo: 1
       },
@@ -150,8 +173,8 @@ export default {
 
        //value:'',
       rules: {
-        buserName: [
-          { required: true, message: '请输入管理员ID', trigger: 'blur' },
+        userName: [
+          { required: true, message: '请输入管理员名称', trigger: 'blur' },
           { min: 1, max: 8, message: '长度在 1 到 8 个字符', trigger: 'blur' }
         ]
       }
@@ -163,63 +186,39 @@ export default {
   },
   methods: {
     initPage () {
-      // options.push({
-      //               // value: item.roleId,
-      //               // label: item.roleName
-      //           value: '选项1',
-      //           label: '黄金糕'                
-      //     })
       var params = this.filter
+      //console.log(params)
       service.getBuserList(params,(isOk, data) => {
         if (isOk == true){
           this.tableData = data.data
           this.tableDataLength = data.total
-          this.options.push({
-                    // value: item.roleId,
-                    // label: item.roleName
-                value: '选项1',
-                label: '黄金糕'                
-          })
-          console.log(this.options)
-          service.getRoleList(params,(isOk, data) => {
-          if (isOk == true){
-                for(let item in data.data){
-                    this.options.push({
-                      value: item.roleId,
-                      label: item.roleName
-                    // value:"选项"
-                    // label:"管理员"
-                
-                  })
-                }
-
-                console.log(this.options)
-              } else{
-                this.$message({
-                  type: 'warning',
-                  message: data.message
-                })
-              }
-            })
-
         } else{
           this.$message({
             type: 'warning',
             message: data.message
           })
         }
-
-        options.push({
-                    // value: item.roleId,
-                    // label: item.roleName
-                value: '选项1',
-                label: '黄金糕'                
-          })
-
       })   
       // 获取角色表
-
-      
+    params = this.filterrole
+    //console.log(this.options)
+    this.options=[]
+      service.getRoleList(params,(isOk, data) => {
+      if (isOk == true){
+          for(var item in data.data){
+            this.options.push({
+            value: data.data[item].roleId,
+            label: data.data[item].roleName
+          })
+          }
+           //console.log(this.options)
+           } else{
+           this.$message({
+           type: 'warning',
+           message: data.message
+           })
+          }
+     })   
     },
     addBuser () {
       var params = this.addDialog.form
@@ -260,15 +259,15 @@ export default {
       })
     },
     deleteBuser (row) {
-      console.log(row)
+    //  console.log(row)
       this.$confirm('删除该用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        if (row == null || row.buserId == null) return
-        service.deleteBuser({buserId: row.Id},(isOk, data) => {
-          if (isOk === true) {
+        if (row == null || row.loginId == null) return
+        service.deleteBuser({loginId: row.loginId},(isOk, data) => {
+          if (isOk == true){
             this.$message({
               type: 'success',
               message: '删除成功'
@@ -283,6 +282,38 @@ export default {
         })
       }).catch(() => {
       })
+    },
+     deleteBuserList () {
+      if(this.multipleSelection.length == 0){
+        this.$message.error('至少选择一条数据!')
+        return
+      }
+      this.$confirm('删除选中的分类, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var params = []
+        for(var j = 0,len=this.multipleSelection.length; j < len; j++) {
+          params.push({loginId: this.multipleSelection[j].loginId})
+        }
+        console.log(params)
+        service.deleteBuserList(params,(isOk, data) => {
+          if (isOk == true){
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            })
+            this.initPage()
+          } else{
+            this.$message({
+              type: 'warning',
+              message: '删除失败'
+            })
+          }
+        })
+      }).catch(() => {
+      });
     },
     onSubmit (form) {
       this.$refs[form].validate(valid => {
@@ -322,6 +353,9 @@ export default {
     handleSizeChange (val) {
       this.filter.pageSize = val
       this.initPage()
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
     },
     handleCurrentChange (val) {
       this.filter.pageNo = val
