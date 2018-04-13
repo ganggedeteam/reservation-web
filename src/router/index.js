@@ -28,6 +28,8 @@ const EditHospital = resolve => require(['../components/hospital/hospital/editHo
 const DoctorList = resolve => require(['../components/hospital/doctor/doctorList.vue'], resolve)
 const DoctorDetail = resolve => require(['../components/hospital/doctor/doctorDetail.vue'], resolve)
 const EditDoctor = resolve => require(['../components/hospital/doctor/EditDoctor.vue'], resolve)
+// 科室管理
+const DepartmentList = resolve => require(['../components/hospital/department/departmentList.vue'], resolve)
 Vue.use(Router)
 
 let router = new Router({
@@ -97,7 +99,8 @@ let router = new Router({
         {path: '/hospital/hospital/edit', component: EditHospital, name: '医院信息管理', menuShow: true},
         {path: '/hospital/doctor/list', component: DoctorList, name: '医生管理', menuShow: true},
         {path: '/hospital/doctor/detail', component: DoctorDetail, name: '医生详情', menuShow: false},
-        {path: '/hospital/doctor/edit', component: EditDoctor, name: '医生编辑', menuShow: false}
+        {path: '/hospital/doctor/edit', component: EditDoctor, name: 'editDoctor', menuShow: false},
+        {path: '/hospital/department/list', component: DepartmentList, name: '科室管理', menuShow: true}
       ]
     }
   ]

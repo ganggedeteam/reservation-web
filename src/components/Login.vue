@@ -51,8 +51,17 @@ export default {
       service.login(params, (isOk, data) => {
         if (isOk === true) {
           if (data.status === true) {
-            GBFL.Cache.set('user-token', data.data)
+            var user = data.data
+            GBFL.Cache.set('user-token', user)
             this.$router.push('/')
+            if(user.roleId == '1' || user.roleId == '2'){
+              params = {hospitalManager: user.loginId}
+              service.getHospitalDetail(params, (isOk, data) => {
+                if (isOk === true) {
+                  GBFL.Cache.set('hospital-token', data.data)
+                }
+              })
+            }
           }
         } else {
           this.$message.error(data.message)

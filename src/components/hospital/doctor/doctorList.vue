@@ -237,16 +237,4 @@ export default {
     border-left: 2px solid #88B7E0;
     margin-right: 10px;
   }
-  .el-form-item {
-    width: 90%;
-  }
-  .el-form-item .save-button{
-    margin-top: 10px;
-    float: right;
-    margin-right: 20px;
-  }
-  .el-form-item .cancel-button{
-    margin-top: 10px;
-    float: right;
-  }
 </style>

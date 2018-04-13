@@ -53,7 +53,14 @@ export default class BizService {
       addDoctor: '/hospital/doctor/add',
       updateDoctor: '/hospital/doctor/update',
       deleteDoctor: '/hospital/doctor/delete',
-      deleteDoctorList: '/hospital/doctor/deleteList'
+      deleteDoctorList: '/hospital/doctor/deleteList',
+
+      // 科室管理
+      getDepartmentPageList: '/hospital/department/pagelist',
+      addDepartment: '/hospital/department/add',
+      deleteDepartment: '/hospital/department/delete',
+      updateDepartment: '/hospital/department/update',
+      deleteDepartmentList: '/hospital/department/deleteList'
     }
   }
   ajaxRequest (url, sendData, type, callback, contentType, async, beforeSend) {
@@ -419,6 +426,51 @@ export default class BizService {
   }
   deleteDoctorList (params, callback) {
     var url = this.testHost + this.method.deleteDoctorList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  getDepartmentPageList (params, callback) {
+    var url = this.testHost + this.method.getDepartmentPageList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  addDepartment (params, callback) {
+    var url = this.testHost + this.method.addDepartment
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  deleteDepartment (params, callback) {
+    var url = this.testHost + this.method.deleteDepartment
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  updateDepartment (params, callback) {
+    var url = this.testHost + this.method.updateDepartment
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  deleteDepartmentList (params, callback) {
+    var url = this.testHost + this.method.deleteDepartmentList
     var type = 'post'
     return this.bizRequest(url, params, type, function (isOk, data) {
       if (callback) {
