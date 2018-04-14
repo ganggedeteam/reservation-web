@@ -99,7 +99,7 @@
         </div>
         <!--导航菜单-->
         <el-menu :default-active="defaultActiveIndex" router :collapse="collapsed" @select="handleSelect">
-          <template v-for="(item,index) in $router.options.routes" v-if="item.menuShow">
+          <template v-for="(item,index) in $store.getters.routers" v-if="item.menuShow">
             <el-submenu v-if="!item.leaf" :index="index+''" :key="index">
               <template slot="title"><i :class="item.iconCls"></i><span slot="title">{{item.name}}</span></template>
               <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow"
@@ -134,6 +134,9 @@
 export default {
   created(){
     this.initPage()
+    console.log(this.$router.options.routes)
+    console.log(this.$router)
+    console.log(this.$store.state)
   },
   methods: {
     initPage () {

@@ -15,8 +15,7 @@
   </el-form>
 </template>
 <script>
-import BizService from '../services/biz-service.js'
-var service = new BizService()
+
 export default {
   data () {
     return {
@@ -27,12 +26,10 @@ export default {
       },
       rules: {
         loginId: [
-          {required: true, message: '请输入账号', trigger: 'blur'},
-          // { validator: validaePass }
+          {required: true, message: '请输入账号', trigger: 'blur'}
         ],
         loginPwd: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
-          // { validator: validaePass2 }
+          {required: true, message: '请输入密码', trigger: 'blur'}
         ]
       },
       checked: true
@@ -47,25 +44,20 @@ export default {
       })
     },
     login () {
-      let params = this.form
-      service.login(params, (isOk, data) => {
-        if (isOk === true) {
-          if (data.status === true) {
-            var user = data.data
-            GBFL.Cache.set('user-token', user)
-            this.$router.push('/')
-            if(user.roleId == '1' || user.roleId == '2'){
-              params = {hospitalManager: user.loginId}
-              service.getHospitalDetail(params, (isOk, data) => {
-                if (isOk === true) {
-                  GBFL.Cache.set('hospital-token', data.data)
-                }
-              })
-            }
-          }
-        } else {
-          this.$message.error(data.message)
+      var params = this.form
+      this.$store.dispatch('LoginById', params).then(res => {
+        // this.$
+        var usertoken = {
+          loginId: res.data.userName,
+          loginPwd: res.data.loginPwd
         }
+        GBFL.Cache.set('user-token', usertoken)
+        this.$router.push({ path: '/' })
+        // this.$store.dispatch('GenerateRoutes', ['admin']).then(() => {
+        //   console.log(this.$store.state)
+        // })
+      }).catch(msg => {
+        this.$message.error(msg)
       })
     }
   }
@@ -105,33 +97,4 @@ export default {
       margin: 0px 0px 35px 0px;
     }
   }
-</style>
-<style scoped>
-  /* html,body{
-    margin: 0;
-    padding: 0;
-    position: relative;
-  }
-  .dialog{
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,.8);
-  }
-  .loginPage{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -150px;
-    margin-left: -175px;
-    width: 350px;
-    min-height: 300px;
-    padding: 30px 20px 20px;
-    border-radius: 8px;
-    box-sizing: border-box;
-    background-color: #fff;
-  }
-  .loginPage p{
-    color: red;
-    text-align: left;
-  } */
 </style>

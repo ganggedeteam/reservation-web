@@ -22,7 +22,7 @@ export default class BizService {
       addBuser: '/system/buser/add',
       deleteBuser: '/system/buser/delete',
       updateBuser: '/system/buser/update',
-      detailBuser: '/system/buser/datail',
+      detailBuser: '/system/buser/detail',
       // 角色管理
       getRoleList: '/system/role/pagelist',
       // 公共编码管理
@@ -330,7 +330,15 @@ export default class BizService {
       }
     }, 'application/json')
   }
-
+  detailBuser (params, callback) {
+    var url = this.testHost + this.method.detailBuser
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
   // 角色管理
   getRoleList (params, callback) {
     var url = this.testHost + this.method.getRoleList
