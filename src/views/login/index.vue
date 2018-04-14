@@ -2,30 +2,26 @@
   <div class="login-container">
     <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
       class="card-box login-form">
-      <h3 class="title">vue-element-admin</h3>
-      <el-form-item prop="username">
+      <h3 class="title">预约后台管理系统</h3>
+      <el-form-item prop="loginId">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+        <el-input name="loginId" type="text" v-model="loginForm.loginId" autoComplete="on" placeholder="请输入登录名" />
       </el-form-item>
-      <el-form-item prop="password">
+      <el-form-item prop="loginPwd">
         <span class="svg-container">
           <svg-icon icon-class="password"></svg-icon>
         </span>
-        <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-          placeholder="password"></el-input>
+        <el-input name="loginPwd" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.loginPwd" autoComplete="on"
+          placeholder="请输入密码"></el-input>
           <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
-          Sign in
+          登录
         </el-button>
       </el-form-item>
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: admin</span>
-      </div>
     </el-form>
   </div>
 </template>
@@ -52,12 +48,12 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: 'admin'
+        loginId: 'admin',
+        loginPwd: '123456'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+        loginId: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        loginPwd: [{ required: true, trigger: 'blur', validator: validatePass }]
       },
       loading: false,
       pwdType: 'password'
@@ -73,16 +69,23 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
+        console.log(valid)
         if (valid) {
           this.loading = true
-          this.$store.dispatch('Login', this.loginForm).then(() => {
+          this.$store.dispatch('LoginById', this.loginForm).then(res => {
             this.loading = false
+            var usertoken = {
+              loginId: res.data.userName,
+              loginPwd: res.data.loginPwd
+            }
+            GBFL.Cache.set('user-token', usertoken)
             this.$router.push({ path: '/' })
-          }).catch(() => {
+          }).catch(msg => {
             this.loading = false
           })
         } else {
-          console.log('error submit!!')
+          console.log('error')
+          this.$message.error(msg)
           return false
         }
       })

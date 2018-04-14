@@ -4,6 +4,7 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
+        <svg-icon icon-class="user" class="el-user-icon" />
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
@@ -41,9 +42,8 @@ export default {
       this.$store.dispatch('ToggleSideBar')
     },
     logout() {
-      this.$store.dispatch('LogOut').then(() => {
-        location.reload() // 为了重新实例化vue-router对象 避免bug
-      })
+      GBFL.Cache.clear()      
+      location.reload() // 为了重新实例化vue-router对象 避免bug
     }
   }
 }
@@ -85,6 +85,10 @@ export default {
         right: -20px;
         top: 25px;
         font-size: 12px;
+      }
+      .el-user-icon {
+        width: 3em;
+        height: 3em;
       }
     }
   }

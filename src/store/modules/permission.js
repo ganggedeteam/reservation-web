@@ -23,6 +23,7 @@ function filterAsyncRouter(asyncRouterMap, roles) {
     if (hasPermission(roles, route)) {
       if (route.children && route.children.length) {
         route.children = filterAsyncRouter(route.children, roles)
+        route.redirect = route.path + '/' + route.children[0].path
       }
       return true
     }

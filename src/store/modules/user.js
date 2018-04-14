@@ -70,7 +70,7 @@ const user = {
       return new Promise((resolve, reject) => {
         commit('SET_STATUS', status)
       })
-    }
+    },
 
     // 第三方验证登录
     // LoginByThirdparty({ commit, state }, code) {
@@ -87,18 +87,17 @@ const user = {
     // },
 
     // 登出
-    // LogOut({ commit, state }) {
-    //   return new Promise((resolve, reject) => {
-    //     logout(state.token).then(() => {
-    //       commit('SET_TOKEN', '')
-    //       commit('SET_ROLES', [])
-    //       removeToken()
-    //       resolve()
-    //     }).catch(error => {
-    //       reject(error)
-    //     })
-    //   })
-    // },
+    Logout({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        logout(state.token).then(() => {
+          commit('SET_LOGINID', '')
+          commit('SET_ROLES', [])
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    }
 
     // // 前端 登出
     // FedLogOut({ commit }) {
