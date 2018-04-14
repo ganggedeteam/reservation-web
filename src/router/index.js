@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home.vue'
-import Dashboard from '@/components/Dashboard.vue'
+
+Vue.use(Router)
+
+import Layout from '../views/layout/Layout'
 
 // 用户信息
 const UserList = resolve => require(['../components/user/userList.vue'], resolve)
@@ -30,7 +32,6 @@ const DoctorDetail = resolve => require(['../components/hospital/doctor/doctorDe
 const EditDoctor = resolve => require(['../components/hospital/doctor/EditDoctor.vue'], resolve)
 // 科室管理
 const DepartmentList = resolve => require(['../components/hospital/department/departmentList.vue'], resolve)
-Vue.use(Router)
 
 // 所有权限通用路由表
 // 如首页和登录页和一些不用权限的公用页面
@@ -38,8 +39,60 @@ export const constantRouterMap = [
   {
     path: '/login',
     name: '登录界面',
-    component: Login
-  }
+    component: Login,
+    hidden: true
+  },
+  // { path: '/login', component: () => import('@/views/login/index'), hidden: true },
+  { path: '/404', component: () => import('@/views/404'), hidden: true },
+
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    name: 'Dashboard',
+    hidden: true,
+    children: [{
+      path: 'dashboard',
+      component: () => import('@/views/dashboard/index')
+    }]
+  },
+
+  {
+    path: '/example',
+    component: Layout,
+    redirect: '/example/table',
+    name: 'Example',
+    meta: { title: 'Example', icon: 'example' },
+    children: [
+      {
+        path: 'table',
+        name: 'Table',
+        component: () => import('@/views/table/index'),
+        meta: { title: 'Table', icon: 'table' }
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: () => import('@/views/tree/index'),
+        meta: { title: 'Tree', icon: 'tree' }
+      }
+    ]
+  },
+
+  {
+    path: '/form',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: { title: 'Form', icon: 'form' }
+      }
+    ]
+  },
+
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new Router({
@@ -48,53 +101,53 @@ export default new Router({
 
 // 特定权限路由表
 export const asyncRouterMap = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home,
-    redirect: '/dashboard',
-    leaf: true, // 只有一个节点
-    menuShow: true,
-    iconCls: 'iconfont icon-home', // 图标样式class
-    children: [
-      {
-        path: '/dashboard',
-        component: Dashboard,
-        name: '首页',
-        menuShow: true
-      }
-    ]
-  },
-  {
-    path: '/code',
-    component: Home,
-    name: '公共编码',
-    menuShow: true,
-    iconCls: 'iconfont icon-books',
-    meta: {role: ['管理员']},
-    children: [
-      {
-        path: 'departmenttype',
-        component: DepartmentType,
-        name: '科室分类编码',
-        menuShow: true,
-        redirect: 'code/departmenttype/list',
-        meta: {
-          role: ['管理员']
-        }
-      },
-      {
-        path: 'address',
-        component: AddressList,
-        name: '地址编码',
-        menuShow: true,
-        redirect: 'code/address/list',
-        meta: {
-          role: ['管理员']
-        }
-      }
-    ]
-  }
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   component: Home,
+  //   redirect: '/dashboard',
+  //   leaf: true, // 只有一个节点
+  //   menuShow: true,
+  //   iconCls: 'iconfont icon-home', // 图标样式class
+  //   children: [
+  //     {
+  //       path: '/dashboard',
+  //       component: Dashboard,
+  //       name: '首页',
+  //       menuShow: true
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/code',
+  //   component: Home,
+  //   name: '公共编码',
+  //   menuShow: true,
+  //   iconCls: 'iconfont icon-books',
+  //   meta: {role: ['管理员']},
+  //   children: [
+  //     {
+  //       path: 'departmenttype',
+  //       component: DepartmentType,
+  //       name: '科室分类编码',
+  //       menuShow: true,
+  //       redirect: 'code/departmenttype/list',
+  //       meta: {
+  //         role: ['管理员']
+  //       }
+  //     },
+  //     {
+  //       path: 'address',
+  //       component: AddressList,
+  //       name: '地址编码',
+  //       menuShow: true,
+  //       redirect: 'code/address/list',
+  //       meta: {
+  //         role: ['管理员']
+  //       }
+  //     }
+  //   ]
+  // }
   // ,
   // {
   //   path: '/',
