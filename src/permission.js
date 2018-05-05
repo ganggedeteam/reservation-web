@@ -24,6 +24,11 @@ router.beforeEach((to, from, next) => {
     } else {
       if (store.state.user.status === false) {
         store.dispatch('GetUserInfo', user).then(() => {
+          store.dispatch('SetHospitalInfo', user.loginId).then(() => {
+            console.log('医院信息已登记')
+          }).catch(() => {
+           
+          })
           const roles = store.state.user.roles // note: roles must be a array! such as: ['editor','develop']
           store.dispatch('GenerateRoutes', { roles }).then(() => { // 根据roles权限生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表

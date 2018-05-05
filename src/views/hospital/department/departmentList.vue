@@ -3,7 +3,7 @@
     <div class="top-bar">
       <el-row>
         <el-col :span="5">
-          <el-input placeholder="请输入科室名称" prefix-icon="el-icon-search" v-model="filter.doctorName" @keyup.enter.native="initPage">
+          <el-input placeholder="请输入科室名称" prefix-icon="el-icon-search" v-model="filter.departmentName" @keyup.enter.native="initPage">
           </el-input>
         </el-col>
         <el-col :span="2">
@@ -114,6 +114,7 @@ export default {
       tableDataLength: null,
       multipleSelection: [],
       filter: {
+        hospitalId: '',
         pageSize: 10,
         pageNo: 1
       },
@@ -145,8 +146,13 @@ export default {
   },
   methods: {
     initPage () {
+      var hospitalId = this.$store.getters.hospital
+      if(hospitalId == null)
+        this.filter.hospitalId = ''
+      else
+        this.filter.hospitalId = hospitalId
       var params = this.filter
-      service.getDepartmentPageList({params},(isOk, data) => {
+      service.getDepartmentPageList(params,(isOk, data) => {
         if (isOk == true){
           this.tableData = data.data
           this.tableDataLength = data.total
@@ -157,7 +163,7 @@ export default {
           })
         }
       })
-      service.getDepartmentTypeAllList({params},(isOk, data) => {
+      service.getDepartmentTypeAllList({},(isOk, data) => {
         if (isOk == true){
           this.types = data.data
         } else{
@@ -169,7 +175,8 @@ export default {
       })
     },
     addDepartment () {
-      this.addDialog.form.hospitalId = GBFL.Cache.get('hospital-token').hospitalId
+      var hospitalId = this.$store.getters.hospital
+      this.addDialog.form.hospitalId = hospitalId
       var params = this.addDialog.form
       service.addDepartment(params,(isOk, data) => {
         if (isOk == true){
@@ -177,7 +184,8 @@ export default {
             type: 'success',
             message: '新增成功'
           })
-          this.closeAddDialog()
+          this.addDialog.visible = false
+          this.$refs['addDialog.form'].resetFields()
           this.initPage()
         } else{
           this.$message({
@@ -293,12 +301,27 @@ export default {
       this.multipleSelection = val
     },
     openAddDialog () {
+      var hospitalId = this.$store.getters.hospital
+      if(hospitalId == null){
+        this.$message({
+          type: 'warning',
+          message: '请先编辑医院信息'
+        })
+        return
+      }
       this.addDialog.visible = true
     },
     closeAddDialog () {
-      this.addDialog.visible = false;
-      // 重置表单
-      this.$refs['addDialog.form'].resetFields();
+      this.$confirm('退出后编辑的数据将会丢失, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.addDialog.visible = false;
+        // 重置表单
+        this.$refs['addDialog.form'].resetFields();
+      }).catch(() => {
+      });
     },
     openUpdateDialog (row) {
       this.updateDialog.visible = true

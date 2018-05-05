@@ -82,7 +82,8 @@ export default {
       method: '',
       rules: {
         doctorName: [
-          { required: true, message: '请输入医生姓名', trigger: 'change' }
+          { required: true, message: '请输入医生姓名', trigger: 'change' },
+          { min: 2, max: 12, message: '姓名长度在 2 到 12 个字符', trigger: 'blur' }
         ],
         doctorTitle: [
           { required: true, message: '请选择职称', trigger: 'change' }

@@ -21,7 +21,7 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="医院地址" prop="hospitalAddress">
+              <el-form-item label="医院地址">
                 <el-cascader
                   :options="addressOptions"
                   @active-item-change="handleItemChange"
@@ -38,8 +38,12 @@
               <el-form-item label="医院简介">
                 <el-input type="textarea" v-model="form.introduction"></el-input>
               </el-form-item>
+              <el-form-item label="审核状态" v-if="type == 'edit'">
+                <span>{{isValid}}</span>
+              </el-form-item>
               <el-form-item>
-                <el-button type="primary" native-type="submit" @click.prevent="onSubmit">保存</el-button>
+                <el-button v-if="type == 'edit'" type="primary" native-type="submit" @click.prevent="onSubmit">保存</el-button>
+                <el-button v-if="type == 'add'" type="primary" native-type="submit" @click.prevent="onSubmit">新增</el-button>
                 <el-button native-type="submit" @click.prevent="goback">返回</el-button>
               </el-form-item>
             </el-col>
@@ -63,15 +67,13 @@ export default {
         hospitalGrade: ''
       },
       hospital: null,
+      isValid: null,
       rules: {
         hospitalName: [
           { required: true, message: '请输入医院名称', trigger: 'blur' }
         ],
         hospitalGrade: [
           { required: true, message: '请选择医院等级', trigger: 'blur' }
-        ],
-        hospitalAddress: [
-          { required: true, message: '请选择医院地址', trigger: 'blur' }
         ]
       },
       gradeOptions: [{
@@ -139,7 +141,7 @@ export default {
               var hospital = data.data
               this.type = 'edit'
               this.form = hospital
-
+              this.isValid = this.formatIsValid(hospital.isValid)
               // 获取市/区的列表
               params = {preId: hospital.province}
               service.getAddressList(params, (isOk, data) => {
@@ -220,7 +222,11 @@ export default {
             message: '保存成功',
             type: 'success'
           })
-          this.type = 'edit'
+          store.dispatch('SetHospitalInfo', this.$store.getters.loginId).then(() => {
+            console.log('医院信息已登记')
+          }).catch(() => {           
+          })
+          this.initPage()
         }else{
           this.$message.error('保存失败')
         }
@@ -238,6 +244,11 @@ export default {
             message: '更新成功',
             type: 'success'
           })
+          this.$store.dispatch('SetHospitalInfo', this.$store.getters.loginId).then(() => {
+            console.log('医院信息已登记')
+          }).catch(() => {           
+          })
+          this.initPage()
         }else{
           this.$message.error('更新失败')
         }
@@ -248,7 +259,6 @@ export default {
     },
     handleItemChange(val) {
       setTimeout(_ => {
-        console.log(val)
         var preId
         preId = val[val.length - 1]
         var params = {preId: preId}
@@ -283,6 +293,11 @@ export default {
           })
         }
       }, 300);
+    },
+    formatIsValid (val) {
+      if (val === '0') return '未审核'
+      else if (val === '1') return '已审核'
+      else if (val === '2') return '未通过'
     }
   }
 }

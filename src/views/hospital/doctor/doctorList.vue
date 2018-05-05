@@ -77,6 +77,7 @@ export default {
       multipleSelection: [],
       filter: {
         doctorName: null,
+        hospitalId: null,
         pageSize: 10,
         pageNo: 1
       },
@@ -87,6 +88,11 @@ export default {
   },
   methods: {
     initPage () {
+      var hospitalId = this.$store.getters.hospital
+      if(hospitalId == null)
+        this.filter.hospitalId = ''
+      else
+        this.filter.hospitalId = hospitalId
       var params = this.filter
       service.getDoctorPageList(params,(isOk, data) => {
         if (isOk == true){
@@ -123,6 +129,13 @@ export default {
       })
     },
     addDoctor (row) {
+      if(this.$store.getters.hospital == null){
+        this.$message({
+          type: 'warning',
+          message: '请先编辑医院信息'
+        })
+        return
+      }
       this.$router.push({path :'/hospital/doctor/edit', query: { method: 'add'}})
     },
     editDoctor (row) {

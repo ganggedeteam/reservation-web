@@ -30,7 +30,7 @@ const user = {
 
   actions: {
     // 用户名登录
-    LoginById({ commit }, user) {
+    LoginById ({ commit }, user) {
       user.loginId = user.loginId.trim()
       return new Promise((resolve, reject) => {
         service.login(user, (isOk, data) => {

@@ -33,15 +33,19 @@ export default {
   name: 'login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
+      if (value == null || value == ''){
+        callback(new Error('请输入用户名'))
+      } else if (!isvalidUsername(value)) {
+        callback(new Error('用户名长度在5-16位'))
       } else {
         callback()
       }
     }
     const validatePass = (rule, value, callback) => {
-      if (value.length < 5) {
-        callback(new Error('密码不能小于5位'))
+      if (value == null || value == ''){
+        callback(new Error('请输入密码'))
+      } else if (value.length < 6) {
+        callback(new Error('密码不能小于6位'))
       } else {
         callback()
       }
@@ -81,11 +85,11 @@ export default {
             GBFL.Cache.set('user-token', usertoken)
             this.$router.push({ path: '/' })
           }).catch(msg => {
+            this.$message.error(msg)
             this.loading = false
           })
         } else {
           console.log('error')
-          this.$message.error(msg)
           return false
         }
       })
