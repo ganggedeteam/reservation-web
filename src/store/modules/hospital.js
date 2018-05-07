@@ -16,6 +16,7 @@ const hospital = {
         service.getHospitalDetail({hospitalManager: loginId}, (isOk, data) => {
           if(isOk && data.status){
             commit('SET_HOSPITAL', data.data.hospitalId)
+            GBFL.Cache.set("hospital", data.data)
             resolve()
           }else{
             reject()

@@ -70,7 +70,8 @@ export default {
       isValid: null,
       rules: {
         hospitalName: [
-          { required: true, message: '请输入医院名称', trigger: 'blur' }
+          { required: true, message: '请输入医院名称', trigger: 'blur' },
+          { min: 3, max: 12, message: '名称长度在 3 到 12 个字符', trigger: 'blur' }
         ],
         hospitalGrade: [
           { required: true, message: '请选择医院等级', trigger: 'blur' }

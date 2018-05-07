@@ -146,7 +146,7 @@ export default {
   },
   methods: {
     initPage () {
-      var hospitalId = this.$store.getters.hospital
+      var hospitalId = GBFL.Cache.get("hospital").hospitalId
       if(hospitalId == null)
         this.filter.hospitalId = ''
       else

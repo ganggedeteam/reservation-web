@@ -24,18 +24,29 @@ router.beforeEach((to, from, next) => {
     } else {
       if (store.state.user.status === false) {
         store.dispatch('GetUserInfo', user).then(() => {
-          store.dispatch('SetHospitalInfo', user.loginId).then(() => {
-            console.log('医院信息已登记')
-          }).catch(() => {
-           
-          })
+          var userRole = store.state.user.roles[0]
+          if(userRole == '医院管理员'){
+            store.dispatch('SetHospitalInfo', user.loginId).then(() => {
+              console.log('医院信息已登记')
+            }).catch(() => {
+            
+            })
+          }else if(userRole == '医生'){
+            store.dispatch('SetDoctorInfo', user.loginId).then(() => {
+              console.log('医生信息已登记')
+            }).catch(() => {
+            
+            })
+          }
           const roles = store.state.user.roles // note: roles must be a array! such as: ['editor','develop']
           store.dispatch('GenerateRoutes', { roles }).then(() => { // 根据roles权限生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
             store.dispatch('CheckUserStatus', true)
             next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
           })
+          
         }).catch(msg => {
+          NProgress.done()
           GBFL.Cache.remove('user-token')
           next('/login')
         })

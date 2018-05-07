@@ -25,20 +25,11 @@
       </el-table-column>
       <el-table-column
         prop="loginId"
-        label="管理员ID"
-        width="100px">
+        label="登录ID">
       </el-table-column>
-      <el-table-column
-        prop="loginPwd"
-        label="管理员密码"
-        width="200px">
-      </el-table-column>
-      
       <el-table-column
         prop="userName"
-        label="管理员名称"
-        width="400px"
-        >
+        label="用户名称">
       </el-table-column>
       <el-table-column
         prop="roleName"
@@ -66,17 +57,17 @@
     <el-dialog title="新增管理用户 
     " :visible.sync="addDialog.visible" width="35%" :before-close="closeAddDialog">
       <el-form :model="addDialog.form" ref="addDialog.form" label-width="100px" :rules="rules">
-        <el-form-item label="管理员ID" prop="loginId">
+        <el-form-item label="登录ID" prop="loginId">
           <el-input v-model="addDialog.form.loginId"></el-input>
         </el-form-item>
-        <el-form-item label="管理员密码" prop="loginPwd">
+        <el-form-item label="登录密码" prop="loginPwd">
           <el-input v-model="addDialog.form.loginPwd"></el-input>
         </el-form-item>
-        <el-form-item label="管理员名称" prop="userName">
+        <el-form-item label="用户名称" prop="userName">
           <el-input v-model="addDialog.form.userName"></el-input>
         </el-form-item>
         <el-form-item label="角色名称" prop="roleId">
-          <el-select v-model="addDialog.form.roleId" label="管理员角色：" placeholder="请选择角色">
+          <el-select v-model="addDialog.form.roleId" label="管理员角色：" placeholder="请选择角色" style="width: 100%">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -90,23 +81,20 @@
         </el-form-item> -->
         <el-form-item>
           <el-button type="primary" @click="onSubmit('addDialog.form')">新增</el-button>
-          <el-button>取消</el-button>
+          <el-button @click="closeAddDialog">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
     <el-dialog title="编辑管理用户" :visible.sync="updateDialog.visible" width="35%" :before-close="closeUpdateDialog">
       <el-form :model="updateDialog.form" ref="updateDialog.form" label-width="100px" :rules="rules">
         <el-form-item label="管理员ID" prop="loginId">
-          <el-input v-model="updateDialog.form.loginId"></el-input>
-        </el-form-item>
-        <el-form-item label="管理员密码" prop="loginPwd">
-          <el-input v-model="updateDialog.form.loginPwd"></el-input>
+          <el-input v-model="updateDialog.form.loginId" disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="管理员名称" prop="userName">
           <el-input v-model="updateDialog.form.userName"></el-input>
         </el-form-item>
         <el-form-item label="角色名称" prop="roleId">
-          <el-select v-model="updateDialog.form.roleId" label="管理员角色：" placeholder="请选择角色">
+          <el-select v-model="updateDialog.form.roleId" label="管理员角色：" placeholder="请选择角色" style="width: 100%">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -130,6 +118,7 @@ export default {
   data () {
     return {
       tableData: [],
+      multipleSelection: [],
       tableDataLength: null,
       filter: {
         userName: null,
@@ -149,29 +138,22 @@ export default {
         form: {},
         visible: false,
       },
-       options:[],
-      // options: [{
-      //     value: '选项1',
-      //     label: '黄金糕'
-      //   }, {
-      //     value: '选项2',
-      //     label: '双皮奶'
-      //   }, {
-      //     value: '选项3',
-      //     label: '蚵仔煎'
-      //   }, {
-      //     value: '选项4',
-      //     label: '龙须面'
-      //   }, {
-      //     value: '选项5',
-      //     label: '北京烤鸭'
-      //   }],
-
-       //value:'',
+      options:[],
       rules: {
+        loginId: [
+          { required: true, message: '请输入登录ID', trigger: 'blur' },
+          { min: 5, max: 12, message: '长度在 5 到 12 个字符', trigger: 'blur' }
+        ],
+        loginPwd: [
+          { required: true, message: '请输入登录密码', trigger: 'blur' },
+          { min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur' }
+        ],
         userName: [
-          { required: true, message: '请输入管理员名称', trigger: 'blur' },
-          { min: 1, max: 8, message: '长度在 1 到 8 个字符', trigger: 'blur' }
+          { required: true, message: '请输入用户名称', trigger: 'blur' },
+          { min: 2, max: 12, message: '长度在 2 到 12 个字符', trigger: 'blur' }
+        ],
+        roleId: [
+          { required: true, message: '请选择用户角色', trigger: 'blur' }
         ]
       }
     }
@@ -279,7 +261,7 @@ export default {
       }).catch(() => {
       })
     },
-     deleteBuserList () {
+    deleteBuserList () {
       if(this.multipleSelection.length == 0){
         this.$message.error('至少选择一条数据!')
         return
@@ -293,7 +275,6 @@ export default {
         for(var j = 0,len=this.multipleSelection.length; j < len; j++) {
           params.push({loginId: this.multipleSelection[j].loginId})
         }
-        console.log(params)
         service.deleteBuserList(params,(isOk, data) => {
           if (isOk == true){
             this.$message({

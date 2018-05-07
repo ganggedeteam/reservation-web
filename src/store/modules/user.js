@@ -59,6 +59,7 @@ const user = {
             commit('SET_LOGINID', result.loginId)
             commit('SET_PWD', result.loginPwd)
             commit('SET_STATUS', false)
+            GBFL.Cache.set("user", data.data)
             resolve(data)
           } else {
             reject(data.message)

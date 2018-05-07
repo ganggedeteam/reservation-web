@@ -39,6 +39,9 @@
                   </el-option>
                 </el-select>
               </el-form-item>
+              <el-form-item label="登录id" prop="loginId">
+                <el-input  v-model="doctor.loginId" auto-complete="off"></el-input>
+              </el-form-item>
               <el-form-item label="擅长">
                 <el-input  v-model="doctor.skill" type="textarea" auto-complete="off"></el-input>
               </el-form-item>
@@ -90,6 +93,10 @@ export default {
         ],
         typeId: [
           { required: true, message: '请选择所属科室', trigger: 'change' }
+        ],
+        loginId: [
+          { required: true, message: '请输入登录id', trigger: 'change' },
+          { min: 5, max: 12, message: '姓名长度在 5 到 12 个字符', trigger: 'blur' }
         ]
       },
       titles: [
@@ -184,13 +191,13 @@ export default {
             message: '新增成功',
             type: 'success'
           })
+          this.goback();
         } else {
           this.$message({
             message: data.message,
             type: 'warning'
           })
         }
-        this.goback();
       })
     },
     updateDoctor () {
@@ -201,13 +208,13 @@ export default {
             message: '保存成功',
             type: 'success'
           })
+          this.goback();
         } else {
           this.$message({
             message: data.message,
             type: 'warning'
           })
         }
-        this.goback();
       })
     },
     cancel () {

@@ -9,7 +9,7 @@
           <el-row>
             <el-col :span="7" :offset="6">
               <el-form-item label="用户名称">
-                {{user.userName}}
+                {{user.name}}
               </el-form-item>
               <el-form-item label="当前密码" prop="password">
                 <el-input  v-model="form.password" auto-complete="off" type="password"></el-input>
@@ -58,7 +58,8 @@ export default {
           { required: true, message: '请输入您的密码', trigger: 'blur' }
         ],
         newPassword: [
-          { required: true, message: '请输入新密码', trigger: 'blur' }
+          { required: true, message: '请输入新密码', trigger: 'blur' },
+          { min: 6, max: 16, message: '密码长度在 6 到 16 个字符', trigger: 'blur' }
         ],
         confirmNewPassword: [
           { required: true, validator: validatePass, trigger: 'blur' }
@@ -71,7 +72,7 @@ export default {
   },
   methods: {
     initPage () {
-      this.user = GBFL.Cache.get('user-token')
+      this.user = this.$store.state.user
       this.form.userId = this.user.loginId
     },
     onSubmit () {

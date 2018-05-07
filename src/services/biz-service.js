@@ -23,6 +23,7 @@ export default class BizService {
       deleteBuser: '/system/buser/delete',
       updateBuser: '/system/buser/update',
       detailBuser: '/system/buser/detail',
+      deleteBuserList: '/system/buser/deleteList',
       // 角色管理
       getRoleList: '/system/role/pagelist',
       // 公共编码管理
@@ -60,7 +61,11 @@ export default class BizService {
       addDepartment: '/hospital/department/add',
       deleteDepartment: '/hospital/department/delete',
       updateDepartment: '/hospital/department/update',
-      deleteDepartmentList: '/hospital/department/deleteList'
+      deleteDepartmentList: '/hospital/department/deleteList',
+
+      // 预约表管理
+      getReservationByDoctor: '/reservation/listbydoctor',
+      updateReservation: '/reservation/update'
     }
   }
   ajaxRequest (url, sendData, type, callback, contentType, async, beforeSend) {
@@ -321,6 +326,15 @@ export default class BizService {
       }
     }, 'application/json')
   }
+  deleteBuserList (params, callback) {
+    var url = this.testHost + this.method.deleteBuserList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
   updateBuser (params, callback) {
     var url = this.testHost + this.method.updateBuser
     var type = 'post'
@@ -479,6 +493,25 @@ export default class BizService {
   }
   deleteDepartmentList (params, callback) {
     var url = this.testHost + this.method.deleteDepartmentList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+
+  getReservationByDoctor (params, callback) {
+    var url = this.testHost + this.method.getReservationByDoctor
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  updateReservation (params, callback) {
+    var url = this.testHost + this.method.updateReservation
     var type = 'post'
     return this.bizRequest(url, params, type, function (isOk, data) {
       if (callback) {

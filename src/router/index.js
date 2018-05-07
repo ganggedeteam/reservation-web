@@ -33,6 +33,8 @@ const EditDoctor = resolve => require(['../views/hospital/doctor/EditDoctor.vue'
 const DepartmentList = resolve => require(['../views/hospital/department/departmentList.vue'], resolve)
 // 接诊表管理
 const Calendar = resolve => require(['../views/hospital/calendar/calendar.vue'], resolve)
+// 就诊病人列表
+const ReservationList = resolve => require(['../views/hospital/reservation/reservation.vue'], resolve)
 // 所有权限通用路由表
 // 如首页和登录页和一些不用权限的公用页面
 export const constantRouterMap = [
@@ -112,12 +114,23 @@ export const asyncRouterMap = [
     path: '/system',
     component: Layout,
     name: '系统管理',
-    meta: {title: '系统管理'},
+    meta: {roles: ['管理员'], title: '系统管理'},
     children: [
       {path: 'buser/list', component: BuserList, name: '后台用户管理', meta: {title: '后台用户管理'}},
-      {path: 'buser/changepwd', component: UserPwdChange, name: '修改密码', hidden: true, meta: {title: '修改密码'}},
+      {path: 'buser/changepwd', component: UserPwdChange, name: '修改密码', hidden: true, meta: {roles: ['管理员','医院管理员','医生'],title: '修改密码'}},
       {path: 'buser/profile', component: DoctorProfile, name: '个人信息', hidden: true, meta: {title: '个人信息'}},
       {path: 'role/list', component: RoleList, name: '角色管理', meta: {title: '角色管理'}}
+    ]
+  },
+  {
+    path: '/info',
+    component: Layout,
+    name: '个人信息',
+    hidden: true,
+    meta: {title: '个人信息'},
+    children: [
+      {path: 'changepwd', component: UserPwdChange, name: '修改密码', hidden: true, meta: {roles: ['管理员','医院管理员','医生'],title: '修改密码'}},
+      {path: 'profile', component: DoctorProfile, name: '修改信息', hidden: true, meta: {title: '修改信息'}},
     ]
   },
   {
@@ -133,16 +146,17 @@ export const asyncRouterMap = [
     path: '/hospital',
     component: Layout,
     name: '院方信息维护',
-    meta: {roles: ['管理员','医院管理员'], title: '院方信息维护', icon: 'people'},
+    meta: {title: '院方信息维护', icon: 'people'},
     children: [
       {path: 'hospital/list', component: HospitalList, name: '医院列表', meta:{roles: ['管理员'], title: '医院列表'}},
       {path: 'hospital/detail', component: HospitalDetail, name: '医院详情', meta:{roles: ['管理员'], title: '医院详情'}, hidden: true},
-      {path: 'hospital/edit', component: EditHospital, name: '医院信息管理', meta:{title: '医院信息管理'}},
-      {path: 'doctor/list', component: DoctorList, name: '医生管理', meta:{title: '医生管理'}},
-      {path: 'doctor/detail', component: DoctorDetail, name: '医生详情', meta:{title: '医生详情'}, hidden: true},
-      {path: 'doctor/edit', component: EditDoctor, name: '修改医生信息', meta:{title: '修改医生信息'}, hidden: true},
-      {path: 'department/list', component: DepartmentList, name: '科室管理', meta:{title: '科室管理'}},
-      {path: 'calendar', component: Calendar, name: '接诊日历表', meta:{title: '接诊日历表'}, hidden: true},
+      {path: 'hospital/edit', component: EditHospital, name: '医院信息管理', meta:{roles: ['医院管理员'], title: '医院信息管理'}},
+      {path: 'doctor/list', component: DoctorList, name: '医生管理', meta:{roles: ['医院管理员'], title: '医生管理'}},
+      {path: 'doctor/detail', component: DoctorDetail, name: '医生详情', meta:{roles: ['医院管理员'], title: '医生详情'}, hidden: true},
+      {path: 'doctor/edit', component: EditDoctor, name: '修改医生信息', meta:{roles: ['医院管理员'], title: '修改医生信息'}, hidden: true},
+      {path: 'department/list', component: DepartmentList, name: '科室管理', meta:{roles: ['医院管理员'], title: '科室管理'}},
+      {path: 'calendar', component: Calendar, name: '接诊日历表', meta:{roles: ['医院管理员'], title: '接诊日历表'}, hidden: true},
+      {path: 'reservation', component: ReservationList, name: '就诊病人列表', meta:{title: '就诊病人列表', roles: ['医生']}},
     ]
   },
   { path: '*', redirect: '/404', hidden: true }

@@ -8,13 +8,18 @@
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
-        <router-link class="inlineBlock" to="/">
+        <router-link v-if="$store.getters.roles[0] === '医生'" class="inlineBlock" to="/info/profile">
           <el-dropdown-item>
-            Home
+            修改信息
+          </el-dropdown-item>
+        </router-link>
+        <router-link class="inlineBlock" to="/info/changepwd">
+          <el-dropdown-item>
+            修改密码
           </el-dropdown-item>
         </router-link>
         <el-dropdown-item divided>
-          <span @click="logout" style="display:block;">LogOut</span>
+          <span @click="logout" style="display:block;">退出</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>

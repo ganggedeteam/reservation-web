@@ -5,6 +5,7 @@ const getters = {
   addRouters: state => state.permission.addRouters,
   routes: state => state.permission.routers,
   sidebar: state => state.app.sidebar,
-  hospital: state => state.hospital.hospitalId
+  hospital: state => state.hospital.hospitalId,
+  doctor: state => state.doctor.doctor
 }
 export default getters

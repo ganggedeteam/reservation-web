@@ -73,13 +73,12 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
-        console.log(valid)
         if (valid) {
           this.loading = true
           this.$store.dispatch('LoginById', this.loginForm).then(res => {
             this.loading = false
             var usertoken = {
-              loginId: res.data.userName,
+              loginId: res.data.loginId,
               loginPwd: res.data.loginPwd
             }
             GBFL.Cache.set('user-token', usertoken)
