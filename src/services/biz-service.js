@@ -65,7 +65,13 @@ export default class BizService {
 
       // 预约表管理
       getReservationByDoctor: '/reservation/listbydoctor',
-      updateReservation: '/reservation/update'
+      updateReservation: '/reservation/update',
+
+      // 基础信息获得
+      getBaseInfo: '/info/baseinfo',
+      getHostpitalStatus: '/info/hospitalinfo',
+      getReservationStatus: '/info/reservationinfo',
+      getHospitalAddr: '/info/hospitaladdr'
     }
   }
   ajaxRequest (url, sendData, type, callback, contentType, async, beforeSend) {
@@ -519,4 +525,42 @@ export default class BizService {
       }
     }, 'application/json')
   }
+
+  getBaseInfo (params, callback) {
+    var url = this.testHost + this.method.getBaseInfo
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    })
+  }
+  getHostpitalStatus (params, callback) {
+    var url = this.testHost + this.method.getHostpitalStatus
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    })
+  }
+  getReservationStatus (params, callback) {
+    var url = this.testHost + this.method.getReservationStatus
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    })
+  }
+  getHospitalAddr (params, callback) {
+    var url = this.testHost + this.method.getHospitalAddr
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    })
+  }
+  
 }

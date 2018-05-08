@@ -82,7 +82,7 @@ export const asyncRouterMap = [
       path: 'dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: {
-        title: '首页', icon: 'dashboard'
+        title: '首页', icon: 'homepage'
       }
     }]
   },
@@ -90,14 +90,14 @@ export const asyncRouterMap = [
     path: '/code',
     component: Layout,
     name: '公共编码',
-    meta: {roles: ['管理员'], title: '公共编码', icon: 'table'},
+    meta: {roles: ['管理员'], title: '公共编码', icon: 'globalcode'},
     children: [
       {
         path: 'departmenttype/list',
         component: DepartmentType,
         name: '科室分类编码',
         meta: {
-          title: '科室分类编码', icon: 'table'
+          title: '科室分类编码', icon: 'type'
         }
       },
       {
@@ -105,7 +105,7 @@ export const asyncRouterMap = [
         component: AddressList,
         name: '地址编码',
         meta: {
-          title: '地址编码'
+          title: '地址编码', icon: 'address'
         }
       }
     ]
@@ -114,12 +114,12 @@ export const asyncRouterMap = [
     path: '/system',
     component: Layout,
     name: '系统管理',
-    meta: {roles: ['管理员'], title: '系统管理'},
+    meta: {roles: ['管理员'], title: '系统管理', icon: 'system'},
     children: [
-      {path: 'buser/list', component: BuserList, name: '后台用户管理', meta: {title: '后台用户管理'}},
+      {path: 'buser/list', component: BuserList, name: '后台用户管理', meta: {title: '后台用户管理', icon: 'admin'}},
       {path: 'buser/changepwd', component: UserPwdChange, name: '修改密码', hidden: true, meta: {roles: ['管理员','医院管理员','医生'],title: '修改密码'}},
       {path: 'buser/profile', component: DoctorProfile, name: '个人信息', hidden: true, meta: {title: '个人信息'}},
-      {path: 'role/list', component: RoleList, name: '角色管理', meta: {title: '角色管理'}}
+      {path: 'role/list', component: RoleList, name: '角色管理', meta: {title: '角色管理', icon: 'role'}}
     ]
   },
   {
@@ -136,27 +136,27 @@ export const asyncRouterMap = [
   {
     path: '/user',
     component: Layout,
-    meta: {roles: ['管理员'], title: '前台用户管理', icon: 'people'},
+    meta: {roles: ['管理员'], title: '前台用户管理', icon: 'user'},
     children: [
-      {path: 'list', component: UserList, name: '用户列表', meta: {roles: ['管理员'], title: '用户列表', icon: 'people'},},
-      {path: 'detail', component: UserDetail, name: '用户详情', hidden: true, meta: {roles: ['管理员'], title: '用户详情', icon: 'people'},}
+      {path: 'list', component: UserList, name: '用户列表', meta: {roles: ['管理员'], title: '用户列表', icon: 'user'},},
+      {path: 'detail', component: UserDetail, name: '用户详情', hidden: true, meta: {roles: ['管理员'], title: '用户详情'},}
     ]
   },
   {
     path: '/hospital',
     component: Layout,
     name: '院方信息维护',
-    meta: {title: '院方信息维护', icon: 'people'},
+    meta: {title: '院方信息维护', icon: 'hospitalinfo'},
     children: [
-      {path: 'hospital/list', component: HospitalList, name: '医院列表', meta:{roles: ['管理员'], title: '医院列表'}},
+      {path: 'hospital/list', component: HospitalList, name: '医院列表', meta:{roles: ['管理员'], title: '医院列表', icon: 'hospital'}},
       {path: 'hospital/detail', component: HospitalDetail, name: '医院详情', meta:{roles: ['管理员'], title: '医院详情'}, hidden: true},
-      {path: 'hospital/edit', component: EditHospital, name: '医院信息管理', meta:{roles: ['医院管理员'], title: '医院信息管理'}},
-      {path: 'doctor/list', component: DoctorList, name: '医生管理', meta:{roles: ['医院管理员'], title: '医生管理'}},
+      {path: 'hospital/edit', component: EditHospital, name: '医院信息管理', meta:{roles: ['医院管理员'], title: '医院信息管理', icon: 'hospital'}},
+      {path: 'doctor/list', component: DoctorList, name: '医生管理', meta:{roles: ['医院管理员'], title: '医生管理', icon: 'doctor1'}},
       {path: 'doctor/detail', component: DoctorDetail, name: '医生详情', meta:{roles: ['医院管理员'], title: '医生详情'}, hidden: true},
       {path: 'doctor/edit', component: EditDoctor, name: '修改医生信息', meta:{roles: ['医院管理员'], title: '修改医生信息'}, hidden: true},
-      {path: 'department/list', component: DepartmentList, name: '科室管理', meta:{roles: ['医院管理员'], title: '科室管理'}},
+      {path: 'department/list', component: DepartmentList, name: '科室管理', meta:{roles: ['医院管理员'], title: '科室管理', icon: 'department'}},
       {path: 'calendar', component: Calendar, name: '接诊日历表', meta:{roles: ['医院管理员'], title: '接诊日历表'}, hidden: true},
-      {path: 'reservation', component: ReservationList, name: '就诊病人列表', meta:{title: '就诊病人列表', roles: ['医生']}},
+      {path: 'reservation', component: ReservationList, name: '就诊病人列表', meta:{title: '就诊病人列表', roles: ['医生'], icon: 'reservation'}},
     ]
   },
   { path: '*', redirect: '/404', hidden: true }

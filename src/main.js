@@ -6,6 +6,7 @@ import 'normalize.css/normalize.css'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+
 import '@/styles/index.scss' // global css
 import echarts from 'echarts'
 import App from './App'
@@ -15,6 +16,7 @@ import store from './store'
 // import '@/assets/iconfont.css'
 import '@/icons' // icon
 import '@/permission' // permission control
+import './mock' // simulation data
 require('./common/gbfl')
 
 Vue.use(ElementUI)
