@@ -1,4 +1,5 @@
 import $ from 'jquery'
+require('../common/gbfl')
 export default class BizService {
   constructor () {
     this.testHost = 'http://localhost:8080'
@@ -76,13 +77,22 @@ export default class BizService {
   }
   ajaxRequest (url, sendData, type, callback, contentType, async, beforeSend) {
     var result = null
+    var userToken = GBFL.Cache.get('user-token')
+    var headers = {}
+    if(userToken && userToken.key && userToken.token){
+      headers = {
+        'userkey': userToken.key,
+        'usertoken': userToken.token
+      }
+    }
+    
     $.ajax({
       url: url,
       type: type || 'GET',
       async: async === undefined || async,
       contentType: contentType === undefined ? 'application/x-www-form-urlencoded' : contentType,
       data: contentType === 'application/json' ? JSON.stringify(sendData) : sendData,
-      headers: {},
+      headers: headers,
       // dataType: 'JSONP',
       // data: $.extend(sendData, {token: FDPX.logOn.token}),
       timeout: 60000,

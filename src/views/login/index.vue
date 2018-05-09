@@ -77,11 +77,6 @@ export default {
           this.loading = true
           this.$store.dispatch('LoginById', this.loginForm).then(res => {
             this.loading = false
-            var usertoken = {
-              loginId: res.data.loginId,
-              loginPwd: res.data.loginPwd
-            }
-            GBFL.Cache.set('user-token', usertoken)
             this.$router.push({ path: '/' })
           }).catch(msg => {
             this.$message.error(msg)

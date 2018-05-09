@@ -16,29 +16,30 @@ const whiteList = ['/login', '/authredirect']
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  let user = GBFL.Cache.get('user-token')
-  if (user != null) {
+  // 先查询本地是否有token
+  let token = GBFL.Cache.get('user-token')
+  if (token != null) {
     if (to.path === '/login') {
       GBFL.Cache.clear()
       next()
     } else {
       if (store.state.user.status === false) {
-        store.dispatch('GetUserInfo', user).then(() => {
-          var userRole = store.state.user.roles[0]
-          if(userRole == '医院管理员'){
-            store.dispatch('SetHospitalInfo', user.loginId).then(() => {
+        var loginId = token.loginId
+        store.dispatch('GetUserInfo', {loginId: loginId}).then(() => {
+          const roles = store.state.user.roles // note: roles must be a array! such as: ['editor','develop']
+          if(roles[0] == '医院管理员'){
+            store.dispatch('SetHospitalInfo', loginId).then(() => {
               console.log('医院信息已登记')
             }).catch(() => {
             
             })
-          }else if(userRole == '医生'){
-            store.dispatch('SetDoctorInfo', user.loginId).then(() => {
+          }else if(roles[0] == '医生'){
+            store.dispatch('SetDoctorInfo', loginId).then(() => {
               console.log('医生信息已登记')
             }).catch(() => {
             
             })
           }
-          const roles = store.state.user.roles // note: roles must be a array! such as: ['editor','develop']
           store.dispatch('GenerateRoutes', { roles }).then(() => { // 根据roles权限生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
             store.dispatch('CheckUserStatus', true)
@@ -59,7 +60,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next('/login') // 否则全部重定向到登录页
-      NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
+      NProgress.done()
     }
   }
 })

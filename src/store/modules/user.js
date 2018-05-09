@@ -4,7 +4,8 @@ const service = new BizService()
 const user = {
   state: {
     loginId: '',
-    pwd: '',
+    key: '',
+    token: '',
     name: '',
     roles: '',
     status: false
@@ -14,8 +15,11 @@ const user = {
     SET_LOGINID: (state, loginId) => {
       state.loginId = loginId
     },
-    SET_PWD: (state, pwd) => {
-      state.pwd = pwd
+    SET_KEY: (state, key) => {
+      state.key = key
+    },
+    SET_TOKEN: (state, token) => {
+      state.token = token
     },
     SET_NAME: (state, name) => {
       state.name = name
@@ -36,11 +40,17 @@ const user = {
         service.login(user, (isOk, data) => {
           if (isOk === true && data.status === true) {
             var result = data.data
-            commit('SET_ROLES', [result.roleName])
-            commit('SET_NAME', result.userName)
-            commit('SET_LOGINID', result.loginId)
-            commit('SET_PWD', result.loginPwd)
+            // commit('SET_ROLES', [result.user.roleName])
+            // commit('SET_NAME', result.user.userName)
+            commit('SET_LOGINID', user.loginId)
+            commit('SET_KEY', result.key)
+            commit('SET_TOKEN', result.token)
             commit('SET_STATUS', false)
+            GBFL.Cache.set('user-token', {
+              loginId: user.loginId,
+              key: result.key,
+              token: result.token
+            })
             resolve(data)
           } else {
             reject(data.message)
@@ -57,9 +67,7 @@ const user = {
             commit('SET_ROLES', [result.roleName])
             commit('SET_NAME', result.userName)
             commit('SET_LOGINID', result.loginId)
-            commit('SET_PWD', result.loginPwd)
-            commit('SET_STATUS', false)
-            GBFL.Cache.set("user", data.data)
+            commit('SET_STATUS', true)
             resolve(data)
           } else {
             reject(data.message)
