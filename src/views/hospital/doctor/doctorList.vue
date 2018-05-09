@@ -221,6 +221,7 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
+      console.log(this.multipleSelection.length)
     },
     formatSex (val) {
       if (val === '0') return '男'

@@ -35,6 +35,7 @@ const DepartmentList = resolve => require(['../views/hospital/department/departm
 const Calendar = resolve => require(['../views/hospital/calendar/calendar.vue'], resolve)
 // 就诊病人列表
 const ReservationList = resolve => require(['../views/hospital/reservation/reservation.vue'], resolve)
+const EditCalendar = resolve => require(['../views/hospital/calendar/editCalendar.vue'], resolve)
 // 所有权限通用路由表
 // 如首页和登录页和一些不用权限的公用页面
 export const constantRouterMap = [

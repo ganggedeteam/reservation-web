@@ -72,7 +72,14 @@ export default class BizService {
       getBaseInfo: '/info/baseinfo',
       getHostpitalStatus: '/info/hospitalinfo',
       getReservationStatus: '/info/reservationinfo',
-      getHospitalAddr: '/info/hospitaladdr'
+      getHospitalAddr: '/info/hospitaladdr',
+      //接诊表管理
+      getCalendarPageList: '/hospital/calendar/pagelist',
+      addCalendar: '/hospital/calendar/add',
+      deleteCalendar: '/hospital/calendar/delete',
+      updateCalendar: '/hospital/calendar/update',
+      deleteCalendarList: '/hospital/calendar/deleteList',
+      getCalendarDetail: '/hospital/calendar/detail'
     }
   }
   ajaxRequest (url, sendData, type, callback, contentType, async, beforeSend) {
@@ -526,6 +533,34 @@ export default class BizService {
       }
     }, 'application/json')
   }
+  //接诊表管理
+  getCalendarPageList (params, callback) {
+    var url = this.testHost + this.method.getCalendarPageList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  addCalendar (params, callback) {
+    var url = this.testHost + this.method.addCalendar
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  deleteCalendar (params, callback) {
+    var url = this.testHost + this.method.deleteCalendar
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
   updateReservation (params, callback) {
     var url = this.testHost + this.method.updateReservation
     var type = 'post'
@@ -535,24 +570,35 @@ export default class BizService {
       }
     }, 'application/json')
   }
+  
 
-  getBaseInfo (params, callback) {
-    var url = this.testHost + this.method.getBaseInfo
+  
+  updateCalendar (params, callback) {
+    var url = this.testHost + this.method.updateCalendar
     var type = 'post'
     return this.bizRequest(url, params, type, function (isOk, data) {
       if (callback) {
         callback(isOk, data)
       }
-    })
+    }, 'application/json')
   }
-  getHostpitalStatus (params, callback) {
-    var url = this.testHost + this.method.getHostpitalStatus
+  deleteCalendarList (params, callback) {
+    var url = this.testHost + this.method.deleteCalendarList
     var type = 'post'
     return this.bizRequest(url, params, type, function (isOk, data) {
       if (callback) {
         callback(isOk, data)
       }
-    })
+    }, 'application/json')
+  }
+  getCalendarDetail (params, callback) {
+    var url = this.testHost + this.method.getCalendarDetail
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
   }
   getReservationStatus (params, callback) {
     var url = this.testHost + this.method.getReservationStatus
@@ -563,6 +609,7 @@ export default class BizService {
       }
     })
   }
+  
   getHospitalAddr (params, callback) {
     var url = this.testHost + this.method.getHospitalAddr
     var type = 'post'
@@ -572,5 +619,25 @@ export default class BizService {
       }
     })
   }
+  getBaseInfo (params, callback) {
+    var url = this.testHost + this.method.getBaseInfo
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    })
+  }
   
+  getHostpitalStatus (params, callback) {
+    var url = this.testHost + this.method.getHostpitalStatus
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    })
+  }
+  
+    
 }
