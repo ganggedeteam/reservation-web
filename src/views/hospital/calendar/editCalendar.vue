@@ -1,13 +1,9 @@
 <template>
   <div>
     <el-card style="margin-top:12px" class="box-card">
-      <el-row>
-        <el-col>
       <div slot="header">
         <span>修改接诊表信息</span>
       </div>
-        </el-col>
-      </el-row>
       <div>
         <el-row>
           <el-col :span="12" :offset="6">
@@ -15,7 +11,7 @@
               <el-form-item label="医生姓名" prop="doctorName">
                 <el-row>
                 <el-col :span="11">
-                <el-input  v-model="calendar.doctorName" auto-complete="off"></el-input>
+                <el-input  v-model="calendar.doctorName" auto-complete="off" disabled></el-input>
                 </el-col>
                 <el-col :span="2">
                 <el-button style="margin-left:7px" @click="openDialog('doctor')">选择</el-button>
@@ -25,7 +21,7 @@
               <el-form-item label="科室名称" prop="departmentName">
                 <el-row>
                 <el-col :span="11">  
-                <el-input  v-model="calendar.departmentName" auto-complete="off"></el-input>
+                <el-input  v-model="calendar.departmentName" auto-complete="off" disabled></el-input>
               </el-col>
                 <el-col :span="2">
                  <el-button style="margin-left:7px" @click="openDialog('department')">选择</el-button>
@@ -39,7 +35,8 @@
                 type="date"
                 placeholder="选择日期"
                 :picker-options="pickerOptions1"
-                value-format="yyyy-MM-dd">
+                value-format="yyyy-MM-dd"
+                :editable="false">
                </el-date-picker>
               </el-form-item>
               <el-form-item label="时间段" prop="admissionPeriod">
@@ -58,63 +55,59 @@
           </el-col>
         </el-row>
       </div>
-       <div>
+      <div>
         <el-dialog
           title="选择医生"
           :visible.sync="selectDoctorDialog.visible"
           width="40%" height="50%"
           >
           <el-row>
-          <div class="top-bar">
-            <el-row>
-              <el-col :span="18" >
+            <el-col :span="20">
               <el-input placeholder="请输入医生姓名" prefix-icon="el-icon-search" v-model="filter1.doctorName"  @keyup.enter.native="initDoctorPage">
-                </el-input>
+              </el-input>
+            </el-col>
+            <el-col :span="4">
+              <el-button style="float:right" @click="initDoctorPage" plain>搜 索</el-button>
+            </el-col>
+          </el-row>
+          <el-row class="row-item">
+              <el-table :data="doctortableData" border tooltip-effect="dark" style="width: 100%"
+              @selection-change="handleSelectionChangedoc">
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              <el-table-column
+                prop="doctorName"
+                label="医生姓名"
+                >
+              </el-table-column>
+              <el-table-column
+                prop="typeName"
+                label="所属科室"
+                >
+              </el-table-column>
+            </el-table>
+          </el-row>
+          <span slot="footer" class="dialog-footer">
+            <el-row>
+              <el-col :span="4">
+                <el-button  type="primary" style="float:left" size="small" @click="onSelect('doctor')">选择</el-button>
               </el-col>
-              <el-col :span="2">
-                <el-button style="margin-left:10px;" @click="initDoctorPage" plain>搜 索</el-button>
+              <el-col :span="20">
+                <el-pagination
+                  @size-change="handleSizeChange1"
+                  @current-change="handleCurrentChange1"
+                  :current-page="filter1.pageNo"
+                  :page-sizes="[5, 10]"
+                  :page-size="filter1.pageSize"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :total="doctortableDataLength"
+                  style="float:right">
+                </el-pagination>  
               </el-col>
             </el-row>
-          </div>
-        </el-row>
-        <el-row>
-            <el-table :data="doctortableData" border tooltip-effect="dark" style="width: 100%"
-             @selection-change="handleSelectionChangedoc">
-            <el-table-column
-              type="selection"
-              width="55">
-            </el-table-column>
-            <el-table-column
-              prop="doctorName"
-              label="医生姓名"
-              >
-            </el-table-column>
-            <el-table-column
-              prop="typeName"
-              label="所属科室"
-              >
-            </el-table-column>
-        </el-table>
-      </el-row>
-      <el-row>
-            <el-pagination
-              @size-change="handleSizeChange1"
-              @current-change="handleCurrentChange1"
-              :current-page="filter1.pageNo"
-              :page-sizes="[5, 10]"
-              :page-size="filter1.pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="doctortableDataLength"
-              style="float:right">
-            </el-pagination>  
-              <el-button type="primary"@click="onSelect('doctor')">选择</el-button>
-          </el-row>
-<!--       <div>
-          <el-row>
-
-            <el-button size="mini" @click="closeUpdateDialog">取消</el-button>
-        </el-row>
-      </div> -->
+          </span>
         </el-dialog>
       </div>
 
@@ -125,48 +118,49 @@
           width="40%" height="50%"
           >
           <el-row>
-          <div class="top-bar">
+            <el-col :span="20" >
+            <el-input placeholder="请输入科室名称" prefix-icon="el-icon-search" v-model="filter2.departmentName"  @keyup.enter.native="initDepartmentPage">
+              </el-input>
+            </el-col>
+            <el-col :span="4">
+              <el-button style="margin-left:10px;float:right" @click="initDepartmentPage" plain>搜 索</el-button>
+            </el-col>
+          </el-row>
+          <el-row class="row-item">
+              <el-table :data="departmenttableData" border tooltip-effect="dark" style="width: 100%"
+              @selection-change="handleSelectionChangedar">
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              <el-table-column
+                prop="departmentName"
+                label="科室名称"
+                >
+              </el-table-column>
+            </el-table>
+          </el-row>
+          <span slot="footer" class="dialog-footer">
             <el-row>
-              <el-col :span="18" >
-              <el-input placeholder="请输入科室名称" prefix-icon="el-icon-search" v-model="filter2.departmentName"  @keyup.enter.native="initDepartmentPage">
-                </el-input>
+              <el-col :span="4">
+                <el-button type="primary" size="small" style="float:left" @click="onSelect('department')">选择</el-button>
               </el-col>
-              <el-col :span="2">
-                <el-button style="margin-left:10px;" @click="initDepartmentPage" plain>搜 索</el-button>
+              <el-col :span="20">
+                <el-pagination
+                  @size-change="handleSizeChange2"
+                  @current-change="handleCurrentChange2"
+                  :current-page="filter2.pageNo"
+                  :page-sizes="[5, 10]"
+                  :page-size="filter2.pageSize"
+                  layout="total, sizes, prev, pager, next, jumper"
+                  :total="departmenttableDataLength"
+                  style="float:right">
+                </el-pagination>  
               </el-col>
             </el-row>
-          </div>
-        </el-row>
-        <el-row>
-            <el-table :data="departmenttableData" border tooltip-effect="dark" style="width: 100%"
-             @selection-change="handleSelectionChangedar">
-            <el-table-column
-              type="selection"
-              width="55">
-            </el-table-column>
-            <el-table-column
-              prop="departmentName"
-              label="科室名称"
-              >
-            </el-table-column>
-        </el-table>
-      </el-row>
-      <el-row>
-            <el-pagination
-              @size-change="handleSizeChange2"
-              @current-change="handleCurrentChange2"
-              :current-page="filter2.pageNo"
-              :page-sizes="[5, 10]"
-              :page-size="filter2.pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="departmenttableDataLength"
-              style="float:right">
-            </el-pagination>  
-              <el-button type="primary"@click="onSelect('department')">选择</el-button>
-          </el-row>
+          </span>
         </el-dialog>
       </div>
-
     </el-card>
   </div>
 </template>
@@ -454,96 +448,10 @@ export default {
 }
 </script>
 <style scope>
-	.parameter-card .el-card__body {
-		padding:0;
-	}
-	.formItem {
-		width: 30%;
-	}
-	.textareaItem {
-		width: 45%;
-	}
-	.dialogFormItem{
-		width: 80%;
-	}
-	.step .el-form-item__content{
-		line-height: 36px;
-	}
-	.step .el-table .cell{
-		padding-left: 10px;
-		padding-right: 10px;
-	}
-	.editdiv .el-card{
-		margin-top: 30px;
-	}
-	.editdiv .el-card .el-card__header {
-      padding: 15px 20px;
-      background-color: #EEF1F6;
-      color: black;
-      border-left: 2px solid #475669;
-    }
-    .editdiv .el-card {
-      box-shadow:none;
-    }
-    .paramsbox {
-    	border-top: 1px solid #D1DBE5;
-    	padding-top: 10px;
-    	padding-bottom: 5px;
-    	min-height: 75px;
-    }
-    .paramsbox .addparambtn{
-    	color:#bfcbd9;
-    	border: 0;
-    }
-    .paramsbox .addparambtn :hover{
-    	color: #20A0FF;
-    }
-    .paramsbox div{
-    	margin-bottom:5px
-    }
-    .paramsbox1 {
-    	padding-bottom: 5px;
-    	min-height: 75px;
-    }
-    .paramsbox1 .addparambtn{
-    	color:#bfcbd9;
-    	border: 0;
-    }
-
-    .paramsbox1 div{
-    	margin-bottom:5px
-    }
-    .api-sec-name {
-        float: left;
-        line-height: 40px;
-        margin-right: 30px;
-    }
-    .api-sec-name:before {
-        content: '';
-        border-left: 2px solid #88B7E0;
-        margin-right: 10px;
-    }
-    .avatar-uploader .el-upload {
-      border: 1px dashed #d9d9d9;
-      border-radius: 6px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    .avatar-uploader .el-upload:hover {
-      border-color: #409EFF;
-    }
-    .avatar-uploader-icon {
-      font-size: 28px;
-      color: #8c939d;
-      width: 178px;
-      height: 178px;
-      line-height: 178px;
-      text-align: center;
-    }
-    .avatar {
-      width: 178px;
-      height: 178px;
-      display: block;
-    }
+  .row-item{
+    margin-top: 10px;
+  }
+  .el-dialog__body {
+    padding: 10px 20px;
+  }
 </style>

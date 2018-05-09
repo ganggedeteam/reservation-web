@@ -21,7 +21,7 @@
         <el-col :span="2">
           <el-button style="margin-left:10px" @click="initPage" plain>搜 索</el-button>
         </el-col>
-        <el-col :span="2" :offset="10">
+        <el-col :span="2" :offset="9">
           <el-button style="float: right" icon="el-icon-edit" type="primary" @click="addCalendar">新 增</el-button>
         </el-col>
         <el-col :span="2">

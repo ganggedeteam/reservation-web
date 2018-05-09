@@ -33,7 +33,7 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="300px">
+        width="250px">
         <template slot-scope="scope">
           <el-button type="info" size="mini" @click="showDetail(scope.row)">查看排班</el-button>
           <el-button type="success" size="mini" @click="openUpdateDialog(scope.row)">编辑</el-button>

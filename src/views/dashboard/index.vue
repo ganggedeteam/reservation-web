@@ -21,6 +21,11 @@ export default {
     ...mapGetters([
       'roles'
     ])
+  },
+  created() {
+    if (this.$store.getters.roles[0] !== '管理员') {
+      this.currentRole = 'editorDashboard'
+    }
   }
 }
 </script>

@@ -33,9 +33,10 @@ const EditDoctor = resolve => require(['../views/hospital/doctor/EditDoctor.vue'
 const DepartmentList = resolve => require(['../views/hospital/department/departmentList.vue'], resolve)
 // 接诊表管理
 const Calendar = resolve => require(['../views/hospital/calendar/calendar.vue'], resolve)
+const EditCalendar = resolve => require(['../views/hospital/calendar/editCalendar.vue'], resolve)
 // 就诊病人列表
 const ReservationList = resolve => require(['../views/hospital/reservation/reservation.vue'], resolve)
-const EditCalendar = resolve => require(['../views/hospital/calendar/editCalendar.vue'], resolve)
+
 // 所有权限通用路由表
 // 如首页和登录页和一些不用权限的公用页面
 export const constantRouterMap = [
@@ -156,7 +157,8 @@ export const asyncRouterMap = [
       {path: 'doctor/detail', component: DoctorDetail, name: '医生详情', meta:{roles: ['医院管理员'], title: '医生详情'}, hidden: true},
       {path: 'doctor/edit', component: EditDoctor, name: '修改医生信息', meta:{roles: ['医院管理员'], title: '修改医生信息'}, hidden: true},
       {path: 'department/list', component: DepartmentList, name: '科室管理', meta:{roles: ['医院管理员'], title: '科室管理', icon: 'department'}},
-      {path: 'calendar', component: Calendar, name: '接诊日历表', meta:{roles: ['医院管理员'], title: '接诊日历表'}, hidden: true},
+      {path: 'calendar', component: Calendar, name: '接诊日历表', meta:{roles: ['医院管理员'], title: '接诊日历表', icon: 'calendar'}},
+      {path: 'calendar/edit', component: EditCalendar, name: '编辑接诊日历表', meta:{roles: ['医院管理员'], title: '编辑接诊日历表'}, hidden: true},
       {path: 'reservation', component: ReservationList, name: '就诊病人列表', meta:{title: '就诊病人列表', roles: ['医生'], icon: 'reservation'}},
     ]
   },
