@@ -33,6 +33,7 @@ const EditDoctor = resolve => require(['../views/hospital/doctor/EditDoctor.vue'
 const DepartmentList = resolve => require(['../views/hospital/department/departmentList.vue'], resolve)
 // 接诊表管理
 const Calendar = resolve => require(['../views/hospital/calendar/calendar.vue'], resolve)
+const EditCalendar = resolve => require(['../views/hospital/calendar/editCalendar.vue'], resolve)
 // 所有权限通用路由表
 // 如首页和登录页和一些不用权限的公用页面
 export const constantRouterMap = [
@@ -143,6 +144,7 @@ export const asyncRouterMap = [
       {path: 'doctor/edit', component: EditDoctor, name: '修改医生信息', meta:{title: '修改医生信息'}, hidden: true},
       {path: 'department/list', component: DepartmentList, name: '科室管理', meta:{title: '科室管理'}},
       {path: 'calendar', component: Calendar, name: '接诊日历表', meta:{title: '接诊日历表'}, hidden: true},
+      {path: 'calendar/edit', component: EditCalendar, name: '修改接诊表信息', meta:{title: '修改接诊表信息'}, hidden: true},
     ]
   },
   { path: '*', redirect: '/404', hidden: true }
