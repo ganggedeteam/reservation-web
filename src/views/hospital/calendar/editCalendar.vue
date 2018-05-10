@@ -45,7 +45,7 @@
                  <el-radio v-model="calendar.admissionPeriod" label="2" border >晚上</el-radio>
               </el-form-item>
               <el-form-item label="号源数量" prop="admissionNum">
-                <el-input-number v-model="calendar.admissionNum" controls-position="right" @change="handleChange" :min="1" :max="100"></el-input-number>
+                <el-input-number v-model="calendar.admissionNum" controls-position="right" @change="handleChange" :min="tempNum" :max="100"></el-input-number>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" native-type="submit" @click.prevent="onSubmit">保存</el-button>
@@ -171,8 +171,8 @@ export default {
   data () {
     return {
       calendar: {
-        admissionNum:1
       },
+      tempNum:1,
       doctor: {
       },
       method: '',
@@ -246,6 +246,8 @@ export default {
         service.getCalendarDetail(params, (isOk, data) => {
           if (isOk === true) {
             this.calendar = data.data
+            this.tempNum=this.calendar.admissionNum-this.calendar.remainingNum
+            console.log(this.tempNum)
           } else {
             this.$message({
               message: data.message,
@@ -336,7 +338,11 @@ export default {
       this.$router.push('/hospital/calendar/')
     },
     handleChange(value) {
-        console.log(value);
+        if (this.method=='edit'){
+          let rname=this.calendar.remainingNum
+          this.calendar.remainingNum= rname+value-this.calendar.admissionNum
+        };
+        // console.log(value);
     },
     handleSizeChange1 (val) {
       this.filter1.pageSize = val

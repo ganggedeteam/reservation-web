@@ -2,9 +2,9 @@ import $ from 'jquery'
 require('../common/gbfl')
 export default class BizService {
   constructor () {
-    this.testHost = 'http://localhost:8080'
-    this.fileUploadHost = 'http://localhost:8888'
-    this.fileSystemHost = 'http://localhost:9999'
+    this.testHost = 'http://10.236.118.141:8080'
+    this.fileUploadHost = 'http://10.236.118.141:8888'
+    this.fileSystemHost = 'http://10.236.118.141:9999'
     this.method = {
       // 文件上传
       upload: '/file/upload',
@@ -27,6 +27,11 @@ export default class BizService {
       deleteBuserList: '/system/buser/deleteList',
       // 角色管理
       getRoleList: '/system/role/pagelist',
+      addRole: '/system/role/add',
+      deleteRole: '/system/role/delete',
+      deleteRoleList: '/system/role/deleteList',
+      updateRole: '/system/role/update',
+
       // 公共编码管理
       getDepartmentTypeList: '/code/departmenttype/pagelist',
       getDepartmentTypeAllList: '/code/departmenttype/list',
@@ -379,6 +384,42 @@ export default class BizService {
   // 角色管理
   getRoleList (params, callback) {
     var url = this.testHost + this.method.getRoleList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  addRole (params, callback) {
+    var url = this.testHost + this.method.addRole
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  deleteRole (params, callback) {
+    var url = this.testHost + this.method.deleteRole
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  deleteRoleList (params, callback) {
+    var url = this.testHost + this.method.deleteRoleList
+    var type = 'post'
+    return this.bizRequest(url, params, type, function (isOk, data) {
+      if (callback) {
+        callback(isOk, data)
+      }
+    }, 'application/json')
+  }
+  updateRole (params, callback) {
+    var url = this.testHost + this.method.updateRole
     var type = 'post'
     return this.bizRequest(url, params, type, function (isOk, data) {
       if (callback) {

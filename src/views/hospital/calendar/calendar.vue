@@ -116,8 +116,8 @@ export default {
   },
   methods: {
     initPage () {
-      console.log(this.search)
-      console.log(this.keyword)
+      // console.log(this.search)
+      // console.log(this.keyword)
       var hospitalId = this.$store.getters.hospital
       if(hospitalId == null)
         this.filter.hospitalId = ''
